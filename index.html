@@ -4,9 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FixMyHome - Local Pros, On Demand</title>
+  
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="flex flex-col h-full text-slate-800 antialiased">
@@ -16,7 +18,7 @@
       <div class="flex justify-between h-16 items-center">
         
         <div class="flex items-center space-x-2">
-          <div class="h-9 w-9 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-black text-xl">
+          <div class="h-9 w-9 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-lg">
             <i class="fa-solid fa-house-chimney-crack"></i>
           </div>
           <span class="text-xl font-bold tracking-tight text-slate-900">FixMy<span class="text-indigo-600">Home</span></span>
@@ -52,7 +54,7 @@
           Eliminate the stress of emergency breakdowns. Connect instantly with trusted, certified neighborhood tradespeople located within your immediate geographic radius.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-          <button class="bg-indigo-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-indigo-700 transition text-center shadow-md font-semibold">
+          <button class="bg-indigo-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-indigo-700 transition text-center shadow-md font-semibold flex items-center justify-center">
             <i class="fa-solid fa-location-crosshairs mr-2"></i>Detect My Location
           </button>
           <button class="bg-white text-slate-700 border border-slate-300 font-medium px-6 py-3 rounded-lg hover:bg-slate-50 transition text-center shadow-sm">
@@ -64,7 +66,7 @@
       <div class="hidden md:block w-96 h-64 bg-gradient-to-br from-slate-900 to-indigo-950 rounded-2xl shadow-xl p-6 text-white relative overflow-hidden border border-slate-800">
         <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl"></div>
         <p class="text-xs uppercase tracking-widest text-indigo-400 font-bold"><i class="fa-solid fa-satellite-dish mr-1"></i> Network Monitor</p>
-        <p class="text-2xl font-bold mt-1">Live Feed</p>
+        <p class="text-2xl font-bold mt-1">Live Operational Feed</p>
         <div class="mt-8 space-y-3 text-sm text-slate-300">
           <div class="flex justify-between border-b border-slate-800 pb-1"><span>Verified Techs Nearby:</span> <span class="font-mono font-bold text-indigo-400">42 Pros</span></div>
           <div class="flex justify-between border-b border-slate-800 pb-1"><span>Average Dispatch ETA:</span> <span class="font-mono font-bold text-emerald-400">18 Mins</span></div>
@@ -78,7 +80,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         
         <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-500 transition group cursor-pointer">
-          <div class="h-10 w-10 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600 text-xl group-hover:bg-indigo-600 group-hover:text-white transition">
+          <div class="h-10 w-10 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600 text-lg group-hover:bg-indigo-600 group-hover:text-white transition duration-200">
             <i class="fa-solid fa-faucet-drip"></i>
           </div>
           <h3 class="text-lg font-bold text-slate-900 mt-4">Plumbing Solutions</h3>
@@ -86,7 +88,7 @@
         </div>
 
         <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-500 transition group cursor-pointer">
-          <div class="h-10 w-10 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600 text-xl group-hover:bg-indigo-600 group-hover:text-white transition">
+          <div class="h-10 w-10 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600 text-lg group-hover:bg-indigo-600 group-hover:text-white transition duration-200">
             <i class="fa-solid fa-bolt"></i>
           </div>
           <h3 class="text-lg font-bold text-slate-900 mt-4">Electrical Engineering</h3>
@@ -94,7 +96,7 @@
         </div>
 
         <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-500 transition group cursor-pointer">
-          <div class="h-10 w-10 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600 text-xl group-hover:bg-indigo-600 group-hover:text-white transition">
+          <div class="h-10 w-10 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600 text-lg group-hover:bg-indigo-600 group-hover:text-white transition duration-200">
             <i class="fa-solid fa-hammer"></i>
           </div>
           <h3 class="text-lg font-bold text-slate-900 mt-4">Carpentry & Structural</h3>
@@ -104,23 +106,66 @@
       </div>
     </section>
 
-    <section class="bg-white border-y border-slate-200 py-16">
-      <div class="max-w-3xl mx-auto px-4">
-        <article class="prose prose-slate max-w-none prose-headings:text-slate-900 prose-a:text-indigo-600">
-          <h2>The Platform Operational Guarantee</h2>
-          <p>Every single service technician deployed through the <strong>FixMyHome</strong> routing engine undergoes background verification, credential authentication, and strict platform safety validation before responding to local emergency callouts.</p>
+    <section class="bg-white border-y border-slate-200 py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 items-start">
           
-          <h3>Core Integrity Benchmarks</h3>
-          <ul>
-            <li><strong>Upfront Pricing Matrix:</strong> Transparent calculations completely eliminate blind quotes or hidden fee structures before work begins.</li>
-            <li><strong>Proximity Priority Allocation:</strong> Jobs are mapped automatically to the closest qualified independent professional to maintain minimal transit overheads.</li>
-            <li><strong>Accountable History Loops:</strong> Every job event logging pipeline is permanently assigned to client transaction portfolios.</li>
-          </ul>
+          <div class="lg:sticky lg:top-24">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Compliance & Safety</span>
+            <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight mt-3 sm:text-4xl">
+              The Platform Operational Guarantee
+            </h2>
+            <p class="mt-4 text-base text-slate-600 leading-relaxed">
+              Every single service technician deployed through the <strong class="text-slate-900 font-semibold">FixMyHome</strong> routing engine undergoes background verification, credential authentication, and strict platform safety validation before responding to local emergency callouts.
+            </p>
+            
+            <div class="mt-8 border-l-4 border-indigo-600 pl-4 italic text-slate-600 text-sm bg-slate-50 py-4 pr-2 rounded-r-lg shadow-sm">
+              "Our ultimate system deployment focus is to transition stressful, opaque neighborhood maintenance events into clean, predictable, and highly accountable transactions."
+            </div>
+          </div>
 
-          <blockquote>
-            "Our ultimate system deployment focus is to transition stressful, opaque neighborhood maintenance events into clean, predictable, and highly accountable transactions."
-          </blockquote>
-        </article>
+          <div class="lg:col-span-2 space-y-6">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Core Integrity Benchmarks</h3>
+            
+            <div class="flex gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-200">
+              <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-lg bg-emerald-50 text-emerald-600 text-lg">
+                <i class="fa-solid fa-scale-balanced"></i>
+              </div>
+              <div>
+                <h4 class="text-lg font-bold text-slate-900">Upfront Pricing Matrix</h4>
+                <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                  Transparent calculations completely eliminate blind quotes or hidden fee structures before work begins. Homeowners confirm exact project scopes prior to service professional dispatch.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-200">
+              <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-50 text-indigo-600 text-lg">
+                <i class="fa-solid fa-route"></i>
+              </div>
+              <div>
+                <h4 class="text-lg font-bold text-slate-900">Proximity Priority Allocation</h4>
+                <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                  Jobs are mapped automatically to the closest qualified independent professional to maintain minimal transit overheads, lower emissions, and ensure lightning-fast emergency deployment times.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-200">
+              <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-lg bg-blue-50 text-blue-600 text-lg">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div>
+                <h4 class="text-lg font-bold text-slate-900">Accountable History Loops</h4>
+                <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                  Every service event logging timeline is permanently assigned to client transaction portfolios. This digital footprint ensures secure record persistence and complete operational accountability.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
     </section>
 
@@ -129,8 +174,8 @@
   <footer class="bg-slate-900 text-slate-400 text-xs py-10 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-6">
       <div>
-        <p class="font-semibold text-slate-300 text-sm">FixMyHome Prototype Architecture</p>
-        <p class="mt-1">&copy; 2026. Department of Computer Science. Course Code: MCA413-1.</p>
+        <p class="font-semibold text-slate-300 text-sm">FixMyHome Prototype</p>
+        <p class="mt-1">&copy; 2026. Developed By: Aditya Krishna Prasad Venna. Register No.: 2647202</p>
       </div>
       <div class="flex space-x-6 text-sm">
         <a href="#" class="hover:text-white transition">Privacy Architecture</a>
