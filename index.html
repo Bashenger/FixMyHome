@@ -1,189 +1,1408 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="h-full bg-slate-50">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixMyHome - Local Pros, On Demand</title>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="flex flex-col h-full text-slate-800 antialiased">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FixMyHome - Local Pros, On Demand</title>
 
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16 items-center">
-        
-        <div class="flex items-center space-x-2">
-          <div class="h-9 w-9 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-lg">
-            <i class="fa-solid fa-house-chimney-crack"></i>
-          </div>
-          <span class="text-xl font-bold tracking-tight text-slate-900">FixMy<span class="text-indigo-600">Home</span></span>
+    <script src="https://cdn.tailwindcss.com?plugins=typography,forms,aspect-ratio"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              heading: ['Outfit', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Outfit', sans-serif !important;
+      }
+      body {
+        font-family: 'Inter', sans-serif !important;
+        background-image: linear-gradient(rgba(248, 250, 252, 0.86), rgba(248, 250, 252, 0.86)), url('./assets/images/site_background_enhanced.png') !important;
+        background-attachment: fixed !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+      }
+      /* Swipe Down Page Transition Curtain */
+      #transition-curtain {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #4f46e5, #312e81);
+        z-index: 9999;
+        transform: translateY(-100%);
+        transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #transition-curtain.active {
+        transform: translateY(0);
+      }
+      #transition-curtain.slide-out {
+        transform: translateY(100%);
+      }
+      #transition-curtain .curtain-content {
+        color: white;
+        text-align: center;
+        opacity: 0;
+        transform: scale(0.9);
+        transition: all 0.4s ease-in-out 0.2s;
+      }
+      #transition-curtain.active .curtain-content {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(15, 23, 42, 0.05);
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(99, 102, 241, 0.3);
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(99, 102, 241, 0.5);
+      }
+      .radar-pulse {
+        position: relative;
+      }
+      .radar-pulse::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: rgba(16, 185, 129, 0.4);
+        animation: pulse 2s infinite;
+        z-index: 0;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(0.95);
+          opacity: 0.5;
+        }
+        70% {
+          transform: scale(2);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(0.95);
+          opacity: 0;
+        }
+      }
+      .nav-link {
+        position: relative;
+        transition: color 0.2s ease-in-out;
+      }
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background-color: #4f46e5;
+        transform-origin: bottom right;
+        transition: transform 0.25s ease-out;
+      }
+      .nav-link:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+      }
+    </style>
+  </head>
+  <body class="flex flex-col h-full text-slate-800 antialiased">
+    <!-- Swipe Down Page Transition Curtain -->
+    <div id="transition-curtain">
+      <div class="curtain-content flex flex-col items-center space-y-4">
+        <div class="h-16 w-16 bg-white/10 rounded-2xl flex items-center justify-center text-white text-3xl shadow-xl border border-white/20 backdrop-blur-md animate-pulse">
+          <i class="fa-solid fa-house-chimney-crack"></i>
         </div>
-        
-        <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
-          <a href="#" class="text-indigo-600 font-semibold">Find a Technician</a>
-          <a href="#" class="hover:text-slate-900 transition">How It Works</a>
-          <a href="#" class="hover:text-slate-900 transition">Emergency Support</a>
-          <a href="#" class="hover:text-slate-900 transition">Join as Provider</a>
-        </nav>
-        
-        <div class="flex items-center space-x-4">
-          <button class="text-sm font-medium text-slate-600 hover:text-slate-900">Sign In</button>
-          <button class="bg-indigo-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-indigo-700 transition shadow-sm font-semibold">
-            Book Now
-          </button>
+        <div>
+          <h2 class="text-2xl font-black tracking-tight text-white font-heading">FixMyHome</h2>
+          <p class="text-[11px] font-semibold tracking-wider text-indigo-200 uppercase mt-1">Operational Guarantee Protocol</p>
         </div>
-
       </div>
     </div>
-  </header>
 
-  <main class="flex-grow">
-    
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center md:text-left md:flex md:items-center md:justify-between gap-12">
-      <div class="max-w-2xl">
-        <span class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10 mb-4">Proximity Matching Engine</span>
-        <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl leading-tight">
-          On-demand property maintenance, <span class="text-indigo-600">matched by proximity</span>.
-        </h1>
-        <p class="mt-4 text-lg text-slate-600 leading-relaxed">
-          Eliminate the stress of emergency breakdowns. Connect instantly with trusted, certified neighborhood tradespeople located within your immediate geographic radius.
-        </p>
-        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-          <button class="bg-indigo-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-indigo-700 transition text-center shadow-md font-semibold flex items-center justify-center">
-            <i class="fa-solid fa-location-crosshairs mr-2"></i>Detect My Location
-          </button>
-          <button class="bg-white text-slate-700 border border-slate-300 font-medium px-6 py-3 rounded-lg hover:bg-slate-50 transition text-center shadow-sm">
-            View Service Categories
-          </button>
-        </div>
-      </div>
-      
-      <div class="hidden md:block w-96 h-64 bg-gradient-to-br from-slate-900 to-indigo-950 rounded-2xl shadow-xl p-6 text-white relative overflow-hidden border border-slate-800">
-        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl"></div>
-        <p class="text-xs uppercase tracking-widest text-indigo-400 font-bold"><i class="fa-solid fa-satellite-dish mr-1"></i> Network Monitor</p>
-        <p class="text-2xl font-bold mt-1">Live Operational Feed</p>
-        <div class="mt-8 space-y-3 text-sm text-slate-300">
-          <div class="flex justify-between border-b border-slate-800 pb-1"><span>Verified Techs Nearby:</span> <span class="font-mono font-bold text-indigo-400">42 Pros</span></div>
-          <div class="flex justify-between border-b border-slate-800 pb-1"><span>Average Dispatch ETA:</span> <span class="font-mono font-bold text-emerald-400">18 Mins</span></div>
-          <div class="flex justify-between"><span>System Status:</span> <span class="font-mono font-bold text-indigo-400"><i class="fa-solid fa-circle-check text-xs mr-1"></i>Operational</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-200">
-      <h2 class="text-2xl font-bold text-slate-900 mb-8">Select a Maintenance Specialty</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        
-        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-500 transition group cursor-pointer">
-          <div class="h-10 w-10 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600 text-lg group-hover:bg-indigo-600 group-hover:text-white transition duration-200">
-            <i class="fa-solid fa-faucet-drip"></i>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mt-4">Plumbing Solutions</h3>
-          <p class="text-sm text-slate-500 mt-2">Leak detection, pipeline remediation, drainage clearing, and appliance connection setups.</p>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-500 transition group cursor-pointer">
-          <div class="h-10 w-10 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600 text-lg group-hover:bg-indigo-600 group-hover:text-white transition duration-200">
-            <i class="fa-solid fa-bolt"></i>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mt-4">Electrical Engineering</h3>
-          <p class="text-sm text-slate-500 mt-2">Short-circuit assessments, lighting configurations, rewiring tasks, and appliance diagnostics.</p>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-500 transition group cursor-pointer">
-          <div class="h-10 w-10 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600 text-lg group-hover:bg-indigo-600 group-hover:text-white transition duration-200">
-            <i class="fa-solid fa-hammer"></i>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mt-4">Carpentry & Structural</h3>
-          <p class="text-sm text-slate-500 mt-2">Cabinet assemblies, hardware fixing, structural layout repairs, and custom woodwork adjustments.</p>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="bg-white border-y border-slate-200 py-20">
+    <header
+      class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm"
+    >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 items-start">
-          
-          <div class="lg:sticky lg:top-24">
-            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Compliance & Safety</span>
-            <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight mt-3 sm:text-4xl">
-              The Platform Operational Guarantee
-            </h2>
-            <p class="mt-4 text-base text-slate-600 leading-relaxed">
-              Every single service technician deployed through the <strong class="text-slate-900 font-semibold">FixMyHome</strong> routing engine undergoes background verification, credential authentication, and strict platform safety validation before responding to local emergency callouts.
-            </p>
-            
-            <div class="mt-8 border-l-4 border-indigo-600 pl-4 italic text-slate-600 text-sm bg-slate-50 py-4 pr-2 rounded-r-lg shadow-sm">
-              "Our ultimate system deployment focus is to transition stressful, opaque neighborhood maintenance events into clean, predictable, and highly accountable transactions."
+        <div class="flex justify-between h-16 items-center">
+          <div class="flex items-center space-x-2">
+            <div
+              class="h-9 w-9 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-lg"
+            >
+              <i class="fa-solid fa-house-chimney-crack"></i>
             </div>
+            <span class="text-xl font-bold tracking-tight text-slate-900"
+              >FixMy<span class="text-indigo-600">Home</span></span
+            >
           </div>
 
-          <div class="lg:col-span-2 space-y-6">
-            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Core Integrity Benchmarks</h3>
-            
-            <div class="flex gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-200">
-              <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-lg bg-emerald-50 text-emerald-600 text-lg">
-                <i class="fa-solid fa-scale-balanced"></i>
-              </div>
-              <div>
-                <h4 class="text-lg font-bold text-slate-900">Upfront Pricing Matrix</h4>
-                <p class="mt-2 text-sm text-slate-600 leading-relaxed">
-                  Transparent calculations completely eliminate blind quotes or hidden fee structures before work begins. Homeowners confirm exact project scopes prior to service professional dispatch.
-                </p>
-              </div>
-            </div>
+          <nav
+            class="hidden md:flex space-x-8 text-sm font-medium text-slate-600"
+          >
+            <a href="#dispatch-hub" class="nav-link hover:text-indigo-600 transition font-semibold"
+              >Find a Technician</a
+            >
+            <a href="#operational-guarantee" id="how-it-works-link" class="nav-link hover:text-slate-900 transition font-semibold">How It Works</a>
+            <a href="#" onclick="openBookingModal('Emergency Support', 'High'); return false;" class="nav-link hover:text-slate-900 transition font-semibold"
+              >Emergency Support</a
+            >
+            <a href="#" onclick="openProviderModal(); return false;" class="nav-link hover:text-slate-900 transition font-semibold"
+              >Join as Provider</a
+            >
+          </nav>
 
-            <div class="flex gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-200">
-              <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-50 text-indigo-600 text-lg">
-                <i class="fa-solid fa-route"></i>
-              </div>
-              <div>
-                <h4 class="text-lg font-bold text-slate-900">Proximity Priority Allocation</h4>
-                <p class="mt-2 text-sm text-slate-600 leading-relaxed">
-                  Jobs are mapped automatically to the closest qualified independent professional to maintain minimal transit overheads, lower emissions, and ensure lightning-fast emergency deployment times.
-                </p>
-              </div>
-            </div>
-
-            <div class="flex gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-200">
-              <div class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-lg bg-blue-50 text-blue-600 text-lg">
-                <i class="fa-solid fa-shield-halved"></i>
-              </div>
-              <div>
-                <h4 class="text-lg font-bold text-slate-900">Accountable History Loops</h4>
-                <p class="mt-2 text-sm text-slate-600 leading-relaxed">
-                  Every service event logging timeline is permanently assigned to client transaction portfolios. This digital footprint ensures secure record persistence and complete operational accountability.
-                </p>
-              </div>
-            </div>
-
+          <div class="flex items-center space-x-4">
+            <button
+              onclick="openSignInModal()"
+              class="text-sm font-medium text-slate-600 hover:text-slate-900"
+            >
+              Sign In
+            </button>
+            <button
+              onclick="openBookingModal('General Maintenance', 'Medium')"
+              class="bg-indigo-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-indigo-700 transition shadow-sm font-semibold"
+            >
+              Book Now
+            </button>
           </div>
         </div>
       </div>
-    </section>
+    </header>
 
-  </main>
+    <main class="flex-grow">
+      <section
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center lg:text-left lg:flex lg:items-center lg:justify-between gap-12"
+      >
+        <div class="max-w-2xl">
+          <span
+            class="inline-flex items-center rounded-md bg-indigo-50 px-2.5 py-0.5 text-xs font-semibold text-indigo-700 ring-1 ring-inset ring-indigo-700/10 mb-4"
+            >Proximity Matching Engine</span
+          >
+          <h1
+            class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl leading-tight"
+          >
+            On-demand property maintenance,
+            <span class="text-indigo-600">matched by proximity</span>.
+          </h1>
+          <p class="mt-4 text-lg text-slate-600 leading-relaxed">
+            Eliminate the stress of emergency breakdowns. Connect instantly with
+            trusted, certified neighborhood tradespeople located within your
+            immediate geographic radius.
+          </p>
+          <div
+            class="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+          >
+            <button
+              id="hero-detect-btn"
+              class="bg-indigo-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-indigo-700 transition text-center shadow-md font-semibold flex items-center justify-center"
+            >
+              <i class="fa-solid fa-location-crosshairs mr-2 animate-pulse"></i>Detect My Location
+            </button>
+            <a
+              href="#dispatch-hub"
+              class="bg-white text-slate-700 border border-slate-300 font-medium px-6 py-3 rounded-lg hover:bg-slate-50 transition text-center shadow-sm flex items-center justify-center font-semibold"
+            >
+              Access Service Hub
+            </a>
+          </div>
+        </div>
 
-  <footer class="bg-slate-900 text-slate-400 text-xs py-10 border-t border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-6">
-      <div>
-        <p class="font-semibold text-slate-300 text-sm">FixMyHome Prototype</p>
-        <p class="mt-1">&copy; 2026. Developed By: Aditya Krishna Prasad Venna. Register No.: 2647202</p>
+        <div class="hidden lg:block relative w-[480px] h-[320px] shrink-0">
+          <div class="absolute inset-0 bg-indigo-600 rounded-3xl rotate-3 scale-95 opacity-10 blur-lg"></div>
+          <!-- Hero Mockup Image -->
+          <div class="absolute inset-0 rounded-2xl overflow-hidden border border-slate-200 shadow-2xl bg-white">
+            <img src="./assets/images/hero_mockup.png" alt="Proximity GPS Dispatch Mockup" class="w-full h-full object-cover">
+          </div>
+          <!-- Overlaid Live Network Monitor Widget -->
+          <div class="absolute bottom-4 -left-6 w-72 bg-slate-900/95 backdrop-blur-md rounded-xl shadow-xl p-4 text-white border border-slate-700/50">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+              <span class="text-[10px] uppercase tracking-wider text-indigo-400 font-bold">
+                <i class="fa-solid fa-satellite-dish mr-1"></i> Network Monitor
+              </span>
+              <span class="flex h-2 w-2 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+            </div>
+            <p class="text-sm font-bold mt-1 text-slate-100 font-heading">Live Proximity Dispatch</p>
+            <div class="mt-3 space-y-2 text-xs text-slate-300">
+              <div class="flex justify-between border-b border-slate-800/50 pb-1">
+                <span>Verified Techs Nearby:</span>
+                <span class="font-mono font-bold text-indigo-400" id="nearby-techs-counter">42 Pros</span>
+              </div>
+              <div class="flex justify-between border-b border-slate-800/50 pb-1">
+                <span>Average Dispatch ETA:</span>
+                <span class="font-mono font-bold text-emerald-400" id="dispatch-eta-counter">18 Mins</span>
+              </div>
+              <div class="flex justify-between">
+                <span>System Status:</span>
+                <span class="font-mono font-bold text-indigo-400">
+                  <i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i>Operational
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="dispatch-hub"
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-200 scroll-mt-20"
+      >
+        <div class="bg-indigo-900 rounded-2xl p-8 text-white shadow-xl">
+          <div class="border-b border-indigo-800 pb-4 mb-8">
+            <span
+              class="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-indigo-950 px-3 py-1 rounded-full border border-indigo-800"
+              >Operational Hub</span
+            >
+            <h2 class="text-3xl font-black mt-3 flex items-center gap-3 font-heading">
+              <i class="fa-solid fa-tower-broadcast text-indigo-300"></i>Proximity Matches Dashboard
+            </h2>
+            <p class="text-indigo-200 text-sm mt-1">
+              Locate verified neighborhood technicians, monitor live dispatch statuses, and initialize rapid response routing.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+            <!-- Left Column: Location Settings -->
+            <div class="bg-indigo-950/50 p-6 rounded-xl border border-indigo-800 flex flex-col justify-between hover:border-indigo-600 transition duration-300">
+              <div class="mb-4">
+                <h3 class="text-sm font-bold mb-2 flex items-center gap-2 text-indigo-100 font-heading">
+                  <i class="fa-solid fa-location-dot text-emerald-400"></i>
+                  Location Settings
+                </h3>
+                <p class="text-[11px] text-indigo-300 mb-4">
+                  Connect to spatial sensors to lock coordinates for proximity routing.
+                </p>
+
+                <div class="flex flex-wrap gap-2">
+                  <button
+                    id="geo-btn"
+                    class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-3 py-1.5 rounded text-[11px] transition flex items-center shadow"
+                  >
+                    <i class="fa-solid fa-crosshairs mr-1.5 animate-pulse"></i>Detect Position
+                  </button>
+                  <button
+                    id="clear-cache-btn"
+                    class="bg-transparent border border-indigo-700 hover:border-indigo-500 hover:bg-indigo-900/30 text-indigo-200 px-3 py-1.5 rounded text-[11px] transition"
+                  >
+                    Reset Location
+                  </button>
+                </div>
+
+                <div
+                  class="mt-4 p-2.5 bg-indigo-950 rounded border border-indigo-900 font-mono text-[10px] text-emerald-400 leading-normal"
+                  id="geo-output"
+                >
+                  Status: Idle. Awaiting satellite lock...
+                </div>
+              </div>
+
+              <!-- Integration of Alert Settings toggle inside Location Settings! -->
+              <div class="border-t border-indigo-900/60 pt-4 mt-4">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-bell text-rose-400 text-sm animate-bounce"></i>
+                    <div>
+                      <h4 class="text-xs font-bold text-slate-100 font-heading">Browser Push Alerts</h4>
+                      <p class="text-[9px] text-indigo-300">Authorize native desktop alerts for task dispatches</p>
+                    </div>
+                  </div>
+                  <button
+                    id="notify-toggle"
+                    class="bg-indigo-950 hover:bg-indigo-900 text-indigo-300 border border-indigo-800 rounded px-2.5 py-1 text-[10px] font-bold transition"
+                  >
+                    Enable
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Proximity Matches Dashboard -->
+            <div class="bg-indigo-950/50 p-6 rounded-xl border border-indigo-800 flex flex-col justify-between hover:border-indigo-600 transition duration-300" id="technician-panel">
+              <div class="mb-4">
+                <h3 class="text-sm font-bold mb-2 flex items-center gap-2 text-indigo-100 font-heading">
+                  <i class="fa-solid fa-users text-emerald-400"></i>
+                  Verified Technicians Nearby
+                </h3>
+                <p class="text-[11px] text-indigo-300">
+                  Qualified service professionals cruising inside your immediate sector.
+                </p>
+              </div>
+
+              <!-- Scanning/Results Container -->
+              <div class="flex-grow flex flex-col justify-center my-4 min-h-[220px] relative">
+                <!-- Idle Scanning State -->
+                <div id="tech-scan-container" class="flex flex-col items-center justify-center space-y-4">
+                  <div class="h-16 w-16 bg-indigo-900 rounded-full flex items-center justify-center border border-indigo-700 radar-pulse relative">
+                    <i class="fa-solid fa-satellite-dish text-2xl text-emerald-400 relative z-10"></i>
+                  </div>
+                  <p class="text-[11px] text-indigo-300 animate-pulse text-center">Awaiting satellite lock...</p>
+                </div>
+
+                <!-- Active Matched Technicians List (Hidden by default, shown when Geo is locked) -->
+                <div id="tech-list-container" class="hidden space-y-3 custom-scrollbar overflow-y-auto max-h-[300px] pr-1">
+                  <!-- Techs will be injected here via JavaScript -->
+                </div>
+              </div>
+
+              <!-- Matching metrics -->
+              <div class="mt-4 p-3 bg-indigo-950 rounded border border-indigo-900 font-mono text-[10px] text-emerald-400 flex items-center justify-between">
+                <span>RADAR FEED: ACTIVE</span>
+                <span class="animate-pulse flex h-2 w-2 rounded-full bg-emerald-400"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full">Reliable Maintenance</span>
+            <h2 class="text-3xl font-extrabold text-slate-900 mt-2 font-heading">
+              Select a Maintenance Specialty
+            </h2>
+          </div>
+          <p class="text-sm text-slate-500 max-w-md mt-2 md:mt-0">
+            Choose a verified service vertical to launch our rapid geolocation dispatch sequence and secure local expertise immediately.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Plumbing Card -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-indigo-500 transition duration-300 group flex flex-col justify-between"
+          >
+            <div>
+              <div class="h-48 overflow-hidden relative">
+                <img src="./assets/images/service_plumbing.png" alt="Plumbing Solutions" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                <div class="absolute top-3 right-3 bg-indigo-600 text-white rounded-full p-2 h-9 w-9 flex items-center justify-center text-sm shadow">
+                  <i class="fa-solid fa-faucet-drip"></i>
+                </div>
+              </div>
+              <div class="p-6">
+                <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition font-heading">
+                  Plumbing Solutions
+                </h3>
+                <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                  Leak detection, pipeline remediation, drainage clearing, and appliance connection setups.
+                </p>
+              </div>
+            </div>
+            <div class="px-6 pb-6 pt-0">
+              <button onclick="openBookingModal('Plumbing')" class="w-full bg-slate-50 border border-slate-200 text-slate-700 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition font-semibold text-xs py-2 px-4 rounded-lg shadow-sm flex items-center justify-center gap-1.5">
+                Request Dispatch <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Electrical Card -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-indigo-500 transition duration-300 group flex flex-col justify-between"
+          >
+            <div>
+              <div class="h-48 overflow-hidden relative">
+                <img src="./assets/images/service_electrical.png" alt="Electrical Engineering" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                <div class="absolute top-3 right-3 bg-indigo-600 text-white rounded-full p-2 h-9 w-9 flex items-center justify-center text-sm shadow">
+                  <i class="fa-solid fa-bolt"></i>
+                </div>
+              </div>
+              <div class="p-6">
+                <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition font-heading">
+                  Electrical Engineering
+                </h3>
+                <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                  Short-circuit assessments, lighting configurations, rewiring tasks, and appliance diagnostics.
+                </p>
+              </div>
+            </div>
+            <div class="px-6 pb-6 pt-0">
+              <button onclick="openBookingModal('Electrical')" class="w-full bg-slate-50 border border-slate-200 text-slate-700 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition font-semibold text-xs py-2 px-4 rounded-lg shadow-sm flex items-center justify-center gap-1.5">
+                Request Dispatch <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Carpentry Card -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-indigo-500 transition duration-300 group flex flex-col justify-between"
+          >
+            <div>
+              <div class="h-48 overflow-hidden relative">
+                <img src="./assets/images/service_carpentry.png" alt="Carpentry & Structural" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                <div class="absolute top-3 right-3 bg-indigo-600 text-white rounded-full p-2 h-9 w-9 flex items-center justify-center text-sm shadow">
+                  <i class="fa-solid fa-hammer"></i>
+                </div>
+              </div>
+              <div class="p-6">
+                <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition font-heading">
+                  Carpentry & Structural
+                </h3>
+                <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                  Cabinet assemblies, hardware fixing, structural layout repairs, and custom woodwork adjustments.
+                </p>
+              </div>
+            </div>
+            <div class="px-6 pb-6 pt-0">
+              <button onclick="openBookingModal('Carpentry')" class="w-full bg-slate-50 border border-slate-200 text-slate-700 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition font-semibold text-xs py-2 px-4 rounded-lg shadow-sm flex items-center justify-center gap-1.5">
+                Request Dispatch <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Diagnostics Portal (Moved from Proximity Control for natural flow) -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-200 scroll-mt-20">
+        <div class="bg-indigo-950 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden">
+          <!-- background vector detail -->
+          <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-indigo-600/10 rounded-full blur-3xl"></div>
+          
+          <div class="max-w-3xl mb-8">
+            <span class="text-xs font-bold uppercase tracking-widest text-amber-400 bg-indigo-900/50 border border-indigo-800 px-3 py-1 rounded-full">AI Diagnostics Portal</span>
+            <h2 class="text-3xl font-extrabold mt-3 font-heading flex items-center gap-3">
+              <i class="fa-solid fa-laptop-medical text-amber-400"></i>AI-Powered Damage Diagnostics
+            </h2>
+            <p class="text-indigo-200 text-sm mt-1">
+              Upload or drag incident photos below. Our serverless computer vision module will analyze file metadata and locate anomaly zones automatically.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+            <!-- Left/Middle: Image Upload drop-zone -->
+            <div class="lg:col-span-2 flex flex-col justify-between">
+              <div
+                id="drop-zone"
+                class="border-2 border-dashed border-indigo-700 hover:border-amber-400 rounded-xl p-8 text-center bg-indigo-900/20 cursor-pointer transition-all duration-200 flex flex-col items-center justify-center min-h-[260px] relative overflow-hidden group"
+              >
+                <!-- Scanning animation line -->
+                <div id="drop-scan-line" class="hidden absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent shadow-lg shadow-amber-500/50 z-20"></div>
+
+                <!-- Simulated AI scan overlay -->
+                <div id="ai-overlay" class="hidden absolute border-2 border-amber-400 rounded bg-amber-400/10 z-10 text-[9px] font-mono text-amber-400 font-bold px-1.5 py-0.5 pointer-events-none">
+                  [Scanning...]
+                </div>
+
+                <!-- Default Icons/Text -->
+                <div id="drop-zone-default" class="flex flex-col items-center justify-center">
+                  <i class="fa-solid fa-cloud-arrow-up text-5xl text-indigo-500 mb-3 group-hover:scale-110 transition duration-300"></i>
+                  <p id="drop-text" class="text-sm font-semibold text-indigo-300">
+                    Drag & Drop Property Damage Photo Here
+                  </p>
+                  <p class="text-xs text-indigo-400 mt-1">
+                    Supports PNG, JPEG images for visual metadata parsing
+                  </p>
+                </div>
+
+                <!-- Real-time Image Preview Container -->
+                <img id="drop-preview-img" src="" alt="Damage Preview" class="hidden absolute inset-0 w-full h-full object-cover rounded-lg">
+              </div>
+            </div>
+
+            <!-- Right: Diagnostics Readout -->
+            <div class="bg-indigo-900/40 p-6 rounded-xl border border-indigo-800 flex flex-col justify-between">
+              <div>
+                <h4 class="text-sm font-bold text-slate-100 font-heading mb-3 pb-2 border-b border-indigo-800/60">
+                  Diagnostic Readout
+                </h4>
+                <div
+                  class="p-4 bg-indigo-950 rounded border border-indigo-900 font-mono text-xs text-amber-400 min-h-[140px] leading-relaxed"
+                  id="file-output"
+                >
+                  System status: Diagnostic matrix offline. Awaiting photo payload...
+                </div>
+              </div>
+              <div class="mt-4 flex gap-2">
+                <button onclick="document.getElementById('file-picker').click()" class="flex-1 bg-indigo-700 hover:bg-indigo-600 text-white font-bold py-2 rounded text-xs transition flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-folder-open"></i> Browse Files
+                </button>
+                <input type="file" id="file-picker" class="hidden" accept="image/*">
+                <button onclick="resetDiagnostics()" class="bg-transparent border border-indigo-800 hover:border-indigo-600 hover:bg-indigo-900/30 text-indigo-300 px-3 py-2 rounded text-xs transition">
+                  Reset
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="operational-guarantee" class="bg-white border-y border-slate-200 py-20 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 items-start"
+          >
+            <div class="lg:sticky lg:top-24">
+              <span
+                class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full"
+                >Compliance & Safety</span
+              >
+              <h2
+                class="text-3xl font-extrabold text-slate-900 tracking-tight mt-3 sm:text-4xl"
+              >
+                The Platform Operational Guarantee
+              </h2>
+              <p class="mt-4 text-base text-slate-600 leading-relaxed">
+                Every single service technician deployed through the
+                <strong class="text-slate-900 font-semibold">FixMyHome</strong>
+                routing engine undergoes background verification, credential
+                authentication, and strict platform safety validation.
+              </p>
+              <div
+                class="mt-8 border-l-4 border-indigo-600 pl-4 italic text-slate-600 text-sm bg-slate-50 py-4 pr-2 rounded-r-lg shadow-sm"
+              >
+                "Our ultimate system deployment focus is to transition
+                stressful, opaque neighborhood maintenance events into clean,
+                predictable, and highly accountable transactions."
+              </div>
+            </div>
+            <div class="lg:col-span-2 space-y-6">
+              <h3
+                class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2"
+              >
+                Core Integrity Benchmarks
+              </h3>
+              <div
+                class="flex gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-200"
+              >
+                <div
+                  class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-lg bg-emerald-50 text-emerald-600 text-lg"
+                >
+                  <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <div>
+                  <h4 class="text-lg font-bold text-slate-900">
+                    Upfront Pricing Matrix
+                  </h4>
+                  <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                    Transparent calculations completely eliminate blind quotes
+                    or hidden fee structures before work begins.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="flex gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-200"
+              >
+                <div
+                  class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-50 text-indigo-600 text-lg"
+                >
+                  <i class="fa-solid fa-route"></i>
+                </div>
+                <div>
+                  <h4 class="text-lg font-bold text-slate-900">
+                    Proximity Priority Allocation
+                  </h4>
+                  <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                    Jobs are mapped automatically to the closest qualified
+                    independent professional to maintain minimal transit
+                    overheads.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="flex gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-200"
+              >
+                <div
+                  class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-lg bg-blue-50 text-blue-600 text-lg"
+                >
+                  <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div>
+                  <h4 class="text-lg font-bold text-slate-900">
+                    Accountable History Loops
+                  </h4>
+                  <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                    Every service event logging timeline is permanently assigned
+                    to client transaction portfolios ensuring complete
+                    accountability.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer
+      class="bg-slate-900 text-slate-400 text-xs py-10 border-t border-slate-800"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-6"
+      >
+        <div>
+          <p class="font-semibold text-slate-300 text-sm">
+            FixMyHome Technologies Inc.
+          </p>
+          <p class="mt-1">
+            &copy; 2026 FixMyHome. All rights reserved.
+          </p>
+        </div>
+        <div class="flex space-x-6 text-sm">
+          <a href="#" class="hover:text-white transition" onclick="showToast('Privacy Policy is locked in prototype.', 'info'); return false;"
+            >Privacy Policy</a
+          >
+          <a href="#" class="hover:text-white transition" onclick="showToast('API access keys locked for external developers.', 'info'); return false;"
+            >Developer API</a
+          >
+          <a href="#" class="hover:text-white transition" onclick="showToast('Security audits dashboard locked.', 'info'); return false;">Security & Audits</a>
+        </div>
       </div>
-      <div class="flex space-x-6 text-sm">
-        <a href="#" class="hover:text-white transition">Privacy Architecture</a>
-        <a href="#" class="hover:text-white transition">API Specification Core</a>
-        <a href="#" class="hover:text-white transition">System Audits</a>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+      <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all duration-300 scale-95 opacity-0 flex flex-col" id="booking-modal-panel">
+        <!-- Modal Header -->
+        <div class="bg-indigo-900 text-white p-6 relative">
+          <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-indigo-200 hover:text-white transition">
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+          <span class="text-xs uppercase font-bold tracking-wider text-emerald-400" id="booking-specialty-subtitle">Specialty Booking</span>
+          <h3 class="text-2xl font-bold mt-1 font-heading" id="booking-specialty-title">Request Dispatch</h3>
+        </div>
+        
+        <!-- Modal Form -->
+        <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="p-6 space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Your Full Name</label>
+            <input type="text" required id="booking-name" class="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-800 transition outline-none" placeholder="e.g. John Doe">
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Contact Phone</label>
+              <input type="tel" required id="booking-phone" class="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-800 transition outline-none" placeholder="e.g. +91 98765 43210">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Urgency Level</label>
+              <select id="booking-urgency" class="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-800 transition outline-none">
+                <option value="Low">Low (Routine Check)</option>
+                <option value="Medium" selected>Medium (Standard Fix)</option>
+                <option value="High">High (Emergency Dispatch)</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Describe the maintenance issue</label>
+            <textarea required id="booking-description" rows="3" class="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-800 transition outline-none resize-none" placeholder="e.g. Water leaking from under the kitchen basin..."></textarea>
+          </div>
+          
+          <div class="pt-2 flex justify-end space-x-3">
+            <button type="button" onclick="closeBookingModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-50 transition text-xs font-bold">Cancel</button>
+            <button type="submit" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition text-xs font-bold shadow flex items-center gap-1.5">
+              Confirm Booking <i class="fa-solid fa-paper-plane text-[10px]"></i>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-  </footer>
+    <!-- Provider Modal -->
+    <div id="provider-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+      <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all duration-300 scale-95 opacity-0 flex flex-col" id="provider-modal-panel">
+        <!-- Modal Header -->
+        <div class="bg-indigo-900 text-white p-6 relative">
+          <button onclick="closeProviderModal()" class="absolute top-4 right-4 text-indigo-200 hover:text-white transition">
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+          <span class="text-xs uppercase font-bold tracking-wider text-emerald-400">Join FixMyHome Network</span>
+          <h3 class="text-2xl font-bold mt-1 font-heading">Technician Registration</h3>
+        </div>
+        
+        <!-- Modal Form -->
+        <form onsubmit="handleProviderSubmit(event)" class="p-6 space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Company / Professional Name</label>
+            <input type="text" required id="provider-name" class="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-800 transition outline-none" placeholder="e.g. Apex Plumbing Group">
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Select Specialty</label>
+              <select id="provider-specialty" class="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-800 transition outline-none">
+                <option value="plumbing">Plumbing Solutions</option>
+                <option value="electrical">Electrical Engineering</option>
+                <option value="carpentry">Carpentry & Structural</option>
+                <option value="other">Other Maintenance</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">License/Cert Number</label>
+              <input type="text" required id="provider-license" class="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-800 transition outline-none" placeholder="e.g. LIC-998877">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Contact Email</label>
+            <input type="email" required id="provider-email" class="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-800 transition outline-none" placeholder="e.g. pro@fixmyhome.com">
+          </div>
+          
+          <div class="pt-2 flex justify-end space-x-3">
+            <button type="button" onclick="closeProviderModal()" class="px-4 py-2 border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-50 transition text-xs font-bold">Cancel</button>
+            <button type="submit" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition text-xs font-bold shadow flex items-center gap-1.5">
+              Submit Application <i class="fa-solid fa-file-signature text-[10px]"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
 
-</body>
+    <!-- Sign In Modal -->
+    <div id="signin-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+      <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all duration-300 scale-95 opacity-0 flex flex-col" id="signin-modal-panel">
+        <!-- Modal Header -->
+        <div class="bg-indigo-900 text-white p-6 relative">
+          <button onclick="closeSignInModal()" class="absolute top-4 right-4 text-indigo-200 hover:text-white transition">
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+          <span class="text-xs uppercase font-bold tracking-wider text-emerald-400">FixMyHome Portal</span>
+          <h3 class="text-2xl font-bold mt-1 font-heading">Account Sign In</h3>
+        </div>
+        
+        <!-- Modal Form -->
+        <form onsubmit="handleSignInSubmit(event)" class="p-6 space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Email / Phone</label>
+            <input type="text" required id="signin-email" class="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-800 transition outline-none" placeholder="e.g. user@fixmyhome.com">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Password</label>
+            <input type="password" required id="signin-pass" class="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-800 transition outline-none" placeholder="••••••••">
+          </div>
+          
+          <div class="flex items-center justify-between text-xs text-slate-500">
+            <label class="flex items-center space-x-1 cursor-pointer">
+              <input type="checkbox" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="text-indigo-600 hover:underline" onclick="showToast('Password reset sequence is locked in courses prototypes.', 'info'); return false;">Forgot password?</a>
+          </div>
+          
+          <div class="pt-2">
+            <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition text-xs font-bold shadow flex items-center justify-center gap-1.5">
+              Sign In <i class="fa-solid fa-right-to-bracket text-[10px]"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-[200] space-y-2 pointer-events-none"></div>
+
+    <script>
+      // ----------------------------------------------------
+      // GLOBAL APP STATE & MOCK DATABASES
+      // ----------------------------------------------------
+      const technicians = [
+        {
+          name: "Arjun Sharma",
+          specialty: "Plumbing Solutions",
+          rating: "4.9",
+          reviews: 142,
+          image: "./assets/images/tech_male_1.png",
+          baseDistance: 0.6,
+          status: "Available",
+          eta: 5
+        },
+        {
+          name: "Priya Patel",
+          specialty: "Electrical Engineering",
+          rating: "4.8",
+          reviews: 98,
+          image: "./assets/images/tech_female_1.png",
+          baseDistance: 1.2,
+          status: "On Route",
+          eta: 8
+        },
+        {
+          name: "Vikram Rao",
+          specialty: "Carpentry & Structural",
+          rating: "4.7",
+          reviews: 114,
+          image: "./assets/images/tech_male_2.png",
+          baseDistance: 2.1,
+          status: "Available",
+          eta: 13
+        }
+      ];
+
+      // ----------------------------------------------------
+      // TOAST NOTIFICATION UTILITY
+      // ----------------------------------------------------
+      function showToast(message, type = 'info') {
+        const toastContainer = document.getElementById("toast-container");
+        const toast = document.createElement("div");
+        toast.className = `p-3 rounded-lg shadow-lg text-white text-xs font-semibold pointer-events-auto flex items-center space-x-2 border transition duration-300 transform translate-y-2 opacity-0 ${
+          type === 'success' ? 'bg-emerald-600 border-emerald-500' :
+          type === 'error' ? 'bg-rose-600 border-rose-500' :
+          type === 'warning' ? 'bg-amber-600 border-amber-500' : 'bg-slate-800 border-slate-700'
+        }`;
+        
+        const iconMap = {
+          success: '<i class="fa-solid fa-circle-check"></i>',
+          error: '<i class="fa-solid fa-circle-exclamation"></i>',
+          warning: '<i class="fa-solid fa-triangle-exclamation"></i>',
+          info: '<i class="fa-solid fa-circle-info"></i>'
+        };
+        
+        toast.innerHTML = `${iconMap[type] || ''} <span>${message}</span>`;
+        toastContainer.appendChild(toast);
+        
+        setTimeout(() => {
+          toast.classList.remove('translate-y-2', 'opacity-0');
+        }, 10);
+        
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-2');
+          setTimeout(() => {
+            toast.remove();
+          }, 300);
+        }, 4000);
+      }
+
+      // ----------------------------------------------------
+      // BOOKING MODAL HANDLERS
+      // ----------------------------------------------------
+      function openBookingModal(specialty, defaultUrgency = 'Medium') {
+        const modal = document.getElementById("booking-modal");
+        const panel = document.getElementById("booking-modal-panel");
+        const subtitle = document.getElementById("booking-specialty-subtitle");
+        const title = document.getElementById("booking-specialty-title");
+        const form = document.getElementById("booking-form");
+        const urgencySelect = document.getElementById("booking-urgency");
+        
+        subtitle.innerText = `${specialty} Sector`;
+        title.innerText = `Request Proximity Match`;
+        form.reset();
+        
+        if (urgencySelect) {
+          urgencySelect.value = defaultUrgency;
+        }
+        
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+        
+        setTimeout(() => {
+          panel.classList.remove("scale-95", "opacity-0");
+        }, 10);
+      }
+      window.openBookingModal = openBookingModal;
+
+      function closeBookingModal() {
+        const modal = document.getElementById("booking-modal");
+        const panel = document.getElementById("booking-modal-panel");
+        
+        panel.classList.add("scale-95", "opacity-0");
+        setTimeout(() => {
+          modal.classList.remove("flex");
+          modal.classList.add("hidden");
+        }, 300);
+      }
+      window.closeBookingModal = closeBookingModal;
+
+      function handleBookingSubmit(event) {
+        event.preventDefault();
+        const name = document.getElementById("booking-name").value;
+        const urgency = document.getElementById("booking-urgency").value;
+        
+        closeBookingModal();
+        showToast(`Routing request created successfully for ${name}!`, "success");
+        
+        // Auto trigger tracking screen and geolocation sensor check
+        setTimeout(() => {
+          showToast(`Initializing real-time proximity scanning (${urgency} Urgency)...`, "info");
+          document.getElementById("dispatch-hub").scrollIntoView({ behavior: "smooth" });
+          
+          // Trigger the geolocation button action
+          const geoBtn = document.getElementById("geo-btn");
+          if (geoBtn) geoBtn.click();
+        }, 800);
+      }
+      window.handleBookingSubmit = handleBookingSubmit;
+
+      // ----------------------------------------------------
+      // PROVIDER MODAL HANDLERS
+      // ----------------------------------------------------
+      function openProviderModal() {
+        const modal = document.getElementById("provider-modal");
+        const panel = document.getElementById("provider-modal-panel");
+        
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+        
+        setTimeout(() => {
+          panel.classList.remove("scale-95", "opacity-0");
+        }, 10);
+      }
+      window.openProviderModal = openProviderModal;
+
+      function closeProviderModal() {
+        const modal = document.getElementById("provider-modal");
+        const panel = document.getElementById("provider-modal-panel");
+        
+        panel.classList.add("scale-95", "opacity-0");
+        setTimeout(() => {
+          modal.classList.remove("flex");
+          modal.classList.add("hidden");
+        }, 300);
+      }
+      window.closeProviderModal = closeProviderModal;
+
+      function handleProviderSubmit(event) {
+        event.preventDefault();
+        const providerName = document.getElementById("provider-name").value;
+        closeProviderModal();
+        showToast(`Application submitted successfully for ${providerName}!`, "success");
+        showToast("Compliance screening initiated. ETA: 24 Hours.", "info");
+      }
+      window.handleProviderSubmit = handleProviderSubmit;
+
+      // ----------------------------------------------------
+      // SIGN IN MODAL HANDLERS
+      // ----------------------------------------------------
+      function openSignInModal() {
+        const modal = document.getElementById("signin-modal");
+        const panel = document.getElementById("signin-modal-panel");
+        
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+        
+        setTimeout(() => {
+          panel.classList.remove("scale-95", "opacity-0");
+        }, 10);
+      }
+      window.openSignInModal = openSignInModal;
+
+      function closeSignInModal() {
+        const modal = document.getElementById("signin-modal");
+        const panel = document.getElementById("signin-modal-panel");
+        
+        panel.classList.add("scale-95", "opacity-0");
+        setTimeout(() => {
+          modal.classList.remove("flex");
+          modal.classList.add("hidden");
+        }, 300);
+      }
+      window.closeSignInModal = closeSignInModal;
+
+      function handleSignInSubmit(event) {
+        event.preventDefault();
+        const email = document.getElementById("signin-email").value;
+        closeSignInModal();
+        showToast(`Successfully signed in as ${email}!`, "success");
+      }
+      window.handleSignInSubmit = handleSignInSubmit;
+
+      function dispatchSpecificTech(name, specialty, buttonElement) {
+        const mockToken = `FIX-2026-${name.split(" ")[0].toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
+        
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(mockToken).then(() => {
+            showToast(`Accepted by ${name}! Secure Access Token copied to clipboard: ${mockToken}`, "success");
+          }).catch(() => {
+            showToast(`Accepted by ${name}!`, "success");
+          });
+        } else {
+          showToast(`Accepted by ${name}!`, "success");
+        }
+        
+        if (buttonElement) {
+          buttonElement.innerHTML = `<i class="fa-solid fa-circle-check"></i> Booked`;
+          buttonElement.className = "mt-2 text-[9px] font-bold text-emerald-400 bg-indigo-950 border border-indigo-800 px-2 py-1 rounded cursor-not-allowed transition";
+          buttonElement.disabled = true;
+        }
+
+        // push notification (API 6)
+        if ("Notification" in window && Notification.permission === "granted") {
+          const payloadDetails = {
+            body: `${name} is en route. Proximity ETA: 5 Mins. Token: ${mockToken}`,
+            tag: "fixmyhome-dispatch-alert",
+            requireInteraction: false
+          };
+          new Notification("FixMyHome - Dispatched", payloadDetails);
+        }
+      }
+      window.dispatchSpecificTech = dispatchSpecificTech;
+
+      // ----------------------------------------------------
+      // DIAGNOSTICS HANDLERS
+      // ----------------------------------------------------
+      function resetDiagnostics() {
+        const dropZone = document.getElementById("drop-zone");
+        const fileOutput = document.getElementById("file-output");
+        const dropPreviewImg = document.getElementById("drop-preview-img");
+        const dropZoneDefault = document.getElementById("drop-zone-default");
+        const dropScanLine = document.getElementById("drop-scan-line");
+        const aiOverlay = document.getElementById("ai-overlay");
+        const filePicker = document.getElementById("file-picker");
+
+        if (filePicker) filePicker.value = "";
+        if (dropScanLine) dropScanLine.classList.add("hidden");
+        if (aiOverlay) aiOverlay.classList.add("hidden");
+        if (dropPreviewImg) {
+          dropPreviewImg.classList.add("hidden");
+          dropPreviewImg.src = "";
+        }
+        if (dropZoneDefault) dropZoneDefault.classList.remove("hidden");
+        if (fileOutput) {
+          fileOutput.innerHTML = "System status: Diagnostic matrix offline. Awaiting photo payload...";
+        }
+        showToast("Diagnostics panel reset.", "info");
+      }
+      window.resetDiagnostics = resetDiagnostics;
+
+      // ----------------------------------------------------
+      // CORE DOM EVENT HANDLERS
+      // ----------------------------------------------------
+      document.addEventListener("DOMContentLoaded", () => {
+        const geoBtn = document.getElementById("geo-btn");
+        const heroDetectBtn = document.getElementById("hero-detect-btn");
+        const clearCacheBtn = document.getElementById("clear-cache-btn");
+        const geoOutput = document.getElementById("geo-output");
+        const notifyToggle = document.getElementById("notify-toggle");
+
+        const dropZone = document.getElementById("drop-zone");
+        const fileOutput = document.getElementById("file-output");
+        const filePicker = document.getElementById("file-picker");
+        
+        const dropPreviewImg = document.getElementById("drop-preview-img");
+        const dropZoneDefault = document.getElementById("drop-zone-default");
+        const dropScanLine = document.getElementById("drop-scan-line");
+        const aiOverlay = document.getElementById("ai-overlay");
+
+        // ----------------------------------------------------
+        // NOTIFICATIONS TOGGLE INITIALIZATION (API 6)
+        // ----------------------------------------------------
+        if (notifyToggle) {
+          if ("Notification" in window) {
+            if (Notification.permission === "granted") {
+              setNotifyToggleEnabled();
+            } else {
+              setNotifyToggleDisabled();
+            }
+          } else {
+            notifyToggle.innerText = "Unsupported";
+            notifyToggle.disabled = true;
+          }
+
+          notifyToggle.addEventListener("click", () => {
+            if (!("Notification" in window)) return;
+
+            if (Notification.permission === "granted") {
+              showToast("Browser push notifications already active.", "success");
+            } else if (Notification.permission !== "denied") {
+              Notification.requestPermission().then((permission) => {
+                if (permission === "granted") {
+                  setNotifyToggleEnabled();
+                  showToast("Browser push notifications enabled!", "success");
+                } else {
+                  showToast("Notifications disabled by user.", "warning");
+                }
+              });
+            } else {
+              showToast("Notification permission blocked. Reset in browser settings.", "error");
+            }
+          });
+        }
+
+        function setNotifyToggleEnabled() {
+          notifyToggle.innerText = "Active";
+          notifyToggle.className = "bg-emerald-600 border border-emerald-500 text-white rounded px-2.5 py-1 text-[10px] font-bold transition cursor-not-allowed";
+        }
+
+        function setNotifyToggleDisabled() {
+          notifyToggle.innerText = "Enable";
+          notifyToggle.className = "bg-indigo-950 hover:bg-indigo-900 text-indigo-300 border border-indigo-800 rounded px-2.5 py-1 text-[10px] font-bold transition";
+        }
+
+        // ----------------------------------------------------
+        // RADAR MATCH RENDER ENGINE
+        // ----------------------------------------------------
+        function renderTechnicians(lat, lng) {
+          const scanContainer = document.getElementById("tech-scan-container");
+          const listContainer = document.getElementById("tech-list-container");
+          const counterTechs = document.getElementById("nearby-techs-counter");
+          const counterEta = document.getElementById("dispatch-eta-counter");
+          
+          if (!scanContainer || !listContainer) return;
+          
+          scanContainer.classList.add("hidden");
+          listContainer.classList.remove("hidden");
+          listContainer.innerHTML = "";
+          
+          const offset = (Math.abs(lat) + Math.abs(lng)) % 1;
+          let minEta = 99;
+          
+          technicians.forEach(tech => {
+            const distance = (tech.baseDistance + (offset * 0.4)).toFixed(2);
+            const eta = Math.ceil(tech.eta + (offset * 3));
+            if (eta < minEta) minEta = eta;
+            
+            const techCard = document.createElement("div");
+            techCard.className = "bg-indigo-950/80 p-3 rounded-lg border border-indigo-900/50 hover:border-emerald-500/50 hover:bg-indigo-900/40 transition duration-300 flex items-center justify-between group";
+            techCard.innerHTML = `
+              <div class="flex items-center space-x-3">
+                <div class="relative w-12 h-12 rounded-full overflow-hidden border border-indigo-700/50 shrink-0">
+                  <img src="${tech.image}" alt="${tech.name}" class="w-full h-full object-cover">
+                  <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2 border-indigo-950 ${tech.status === 'Available' ? 'bg-emerald-400' : 'bg-amber-400'} animate-pulse"></span>
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-slate-100 font-heading">${tech.name}</h4>
+                  <p class="text-[9px] text-indigo-300 font-medium">${tech.specialty}</p>
+                  <div class="flex items-center space-x-2 mt-0.5">
+                    <span class="text-[9px] text-amber-400 font-bold"><i class="fa-solid fa-star text-[8px] mr-0.5"></i>${tech.rating}</span>
+                    <span class="text-[8px] text-indigo-400">(${tech.reviews} jobs)</span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-right flex flex-col items-end shrink-0">
+                <span class="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950/50 border border-emerald-900/50 px-1.5 py-0.5 rounded">${distance} km</span>
+                <span class="text-[8px] text-indigo-300 mt-1"><i class="fa-solid fa-clock mr-0.5"></i>${eta} min</span>
+                <button onclick="dispatchSpecificTech('${tech.name}', '${tech.specialty}', this)" class="mt-2 text-[9px] font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-500 px-2 py-1 rounded transition shadow">Dispatch</button>
+              </div>
+            `;
+            listContainer.appendChild(techCard);
+          });
+
+          if (counterTechs) counterTechs.innerText = `${technicians.length} Pros`;
+          if (counterEta) counterEta.innerText = `${minEta} Mins`;
+        }
+
+        // ----------------------------------------------------
+        // INITIALIZATION CHECK (API 4: LOCAL STORAGE CHECK)
+        // ----------------------------------------------------
+        const cachedLat = localStorage.getItem("fixmyhome_lat");
+        const cachedLng = localStorage.getItem("fixmyhome_lng");
+
+        if (cachedLat && cachedLng) {
+          geoOutput.innerHTML = `⚠️ <strong>Cached Location:</strong> Lat ${Number(cachedLat).toFixed(4)}, Lng ${Number(cachedLng).toFixed(4)}`;
+          geoOutput.className =
+            "mt-3 p-2.5 bg-indigo-950 rounded border border-indigo-900 font-mono text-[10px] text-indigo-300";
+          renderTechnicians(Number(cachedLat), Number(cachedLng));
+        }
+
+        // ----------------------------------------------------
+        // GEOLOCATION CORE (API 1)
+        // ----------------------------------------------------
+        function fetchGeographicCoordinates() {
+          if (!navigator.geolocation) {
+            geoOutput.innerText =
+              "❌ Error: Geolocation engine not detected on current client hardware.";
+            showToast("Geolocation not supported by this browser.", "error");
+            return;
+          }
+
+          geoOutput.innerText =
+            "🛰️ Connecting to network satellite array... Waiting for device permissions...";
+          showToast("Requesting device location coordinates...", "info");
+
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const lat = position.coords.latitude;
+              const lng = position.coords.longitude;
+
+              // Save to LocalStorage (API 4)
+              localStorage.setItem("fixmyhome_lat", lat);
+              localStorage.setItem("fixmyhome_lng", lng);
+
+              geoOutput.innerHTML = `✅ <strong>Coordinates Locked:</strong> Lat ${lat.toFixed(5)}, Lng ${lng.toFixed(5)}`;
+              geoOutput.className =
+                "mt-3 p-2.5 bg-indigo-950 rounded border border-indigo-900 font-mono text-[10px] text-emerald-400";
+              
+              showToast("Location locked. Mapping proximity routes...", "success");
+              renderTechnicians(lat, lng);
+            },
+            (error) => {
+              geoOutput.innerText = `❌ Hardware Error: ${error.message}`;
+              geoOutput.className =
+                "mt-3 p-2.5 bg-indigo-950 rounded border border-indigo-900 font-mono text-[10px] text-rose-400";
+              showToast(`Location access failed: ${error.message}`, "error");
+              
+              const mockLat = 12.9716;
+              const mockLng = 77.5946;
+              showToast("Running simulated radar routing fallback.", "warning");
+              renderTechnicians(mockLat, mockLng);
+            },
+          );
+        }
+
+        // Intercept click pathways
+        geoBtn.addEventListener("click", fetchGeographicCoordinates);
+        heroDetectBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          document
+            .getElementById("dispatch-hub")
+            .scrollIntoView({ behavior: "smooth" });
+          fetchGeographicCoordinates();
+        });
+
+        // Swipe transition helper
+        function triggerSwipeTransition(targetSelector) {
+          const curtain = document.getElementById("transition-curtain");
+          if (!curtain) return;
+          
+          document.body.style.overflow = "hidden";
+          curtain.classList.remove("slide-out");
+          curtain.classList.add("active");
+          
+          setTimeout(() => {
+            const targetEl = document.querySelector(targetSelector);
+            if (targetEl) {
+              targetEl.scrollIntoView({ behavior: "instant" });
+            }
+          }, 500);
+          
+          setTimeout(() => {
+            curtain.classList.remove("active");
+            curtain.classList.add("slide-out");
+            document.body.style.overflow = "";
+          }, 800);
+          
+          setTimeout(() => {
+            curtain.classList.remove("slide-out");
+          }, 1600);
+        }
+
+        const howItWorksLink = document.getElementById("how-it-works-link");
+        if (howItWorksLink) {
+          howItWorksLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            triggerSwipeTransition("#operational-guarantee");
+          });
+        }
+
+        // Evacuate local registry elements manually
+        clearCacheBtn.addEventListener("click", () => {
+          localStorage.removeItem("fixmyhome_lat");
+          localStorage.removeItem("fixmyhome_lng");
+          geoOutput.innerText =
+            "🧹 LocalStorage cache flushed. Coordinates cleared.";
+          geoOutput.className =
+            "mt-3 p-2.5 bg-indigo-950 rounded border border-indigo-900 font-mono text-[10px] text-amber-400";
+          showToast("Proximity cache cleared.", "info");
+          
+          const scanContainer = document.getElementById("tech-scan-container");
+          const listContainer = document.getElementById("tech-list-container");
+          if (scanContainer && listContainer) {
+            scanContainer.classList.remove("hidden");
+            listContainer.classList.add("hidden");
+          }
+          const counterTechs = document.getElementById("nearby-techs-counter");
+          const counterEta = document.getElementById("dispatch-eta-counter");
+          if (counterTechs) counterTechs.innerText = "0 Pros";
+          if (counterEta) counterEta.innerText = "-- Mins";
+        });
+
+        // ----------------------------------------------------
+        // DIAGNOSTICS & DROP ZONE (API 2 & 3)
+        // ----------------------------------------------------
+        if (dropZone) {
+          ["dragenter", "dragover", "dragleave", "drop"].forEach((eventIdent) => {
+            dropZone.addEventListener(
+              eventIdent,
+              (e) => e.preventDefault(),
+              false,
+            );
+          });
+
+          ["dragenter", "dragover"].forEach((eventIdent) => {
+            dropZone.addEventListener(
+              eventIdent,
+              () => {
+                dropZone.classList.add("border-amber-400", "bg-indigo-900/40");
+              },
+              false,
+            );
+          });
+
+          ["dragleave", "drop"].forEach((eventIdent) => {
+            dropZone.addEventListener(
+              eventIdent,
+              () => {
+                dropZone.classList.remove("border-amber-400", "bg-indigo-900/40");
+              },
+              false,
+            );
+          });
+
+          function handleFileSelect(file) {
+            const convertedSize = (file.size / 1024).toFixed(2);
+            showToast(`Photo loaded: ${file.name}`, "info");
+
+            // Reset scan states
+            dropScanLine.classList.add("hidden");
+            aiOverlay.classList.add("hidden");
+            dropPreviewImg.classList.add("hidden");
+            dropZoneDefault.classList.remove("hidden");
+
+            if (file.type.startsWith("image/")) {
+              const fileUrl = URL.createObjectURL(file);
+              dropPreviewImg.src = fileUrl;
+              dropPreviewImg.classList.remove("hidden");
+              dropZoneDefault.classList.add("hidden");
+              
+              dropScanLine.classList.remove("hidden");
+              aiOverlay.classList.remove("hidden");
+              aiOverlay.innerText = "[Scanning Matrix...]";
+              aiOverlay.style.top = "10%";
+              aiOverlay.style.left = "10%";
+              
+              fileOutput.innerHTML = `⚙️ <strong>AI Processing...</strong> Running computer vision diagnostic pipeline...`;
+              
+              setTimeout(() => {
+                dropScanLine.classList.add("hidden");
+                aiOverlay.innerText = "✓ Damage Anomaly Highlighted (96.2% Confidence)";
+                aiOverlay.className = "absolute border-2 border-emerald-400 rounded bg-emerald-950/80 z-10 text-[9px] font-mono text-emerald-400 font-bold px-1.5 py-0.5 pointer-events-none";
+                
+                fileOutput.innerHTML = `📄 <strong>Name:</strong> ${file.name}<br>📦 <strong>Weight:</strong> ${convertedSize} KB<br>🤖 <strong>AI Diagnosis:</strong> Damage detected. Verified matching mechanics online.`;
+                showToast("Diagnostics complete. Damage anomaly mapped!", "success");
+              }, 2000);
+            } else {
+              fileOutput.innerHTML = `📄 <strong>Name:</strong> ${file.name}<br>📦 <strong>Weight:</strong> ${convertedSize} KB<br>⚠️ <strong>Format Error:</strong> Diagnostics requires photo assets (PNG/JPG).`;
+              showToast("Unsupported file structure.", "error");
+            }
+          }
+
+          dropZone.addEventListener("drop", (e) => {
+            const filePacketArray = e.dataTransfer.files;
+            if (filePacketArray.length === 0) return;
+            handleFileSelect(filePacketArray[0]);
+          });
+
+          if (filePicker) {
+            filePicker.addEventListener("change", (e) => {
+              if (e.target.files.length === 0) return;
+              handleFileSelect(e.target.files[0]);
+            });
+          }
+        }
+      });
+    </script>
+  </body>
 </html>
