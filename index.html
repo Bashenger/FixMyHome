@@ -5,9 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FixMyHome - Local Pros, On Demand</title>
 
+    <script>
+      // Load saved theme immediately to prevent flashing
+      const savedTheme = localStorage.getItem("fixmyhome_theme");
+      const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    </script>
     <script src="https://cdn.tailwindcss.com?plugins=typography,forms,aspect-ratio"></script>
     <script>
       tailwind.config = {
+        darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
@@ -29,15 +40,35 @@
       html {
         scroll-behavior: smooth;
       }
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade-in-up {
+        opacity: 0;
+        animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      .delay-75 { animation-delay: 75ms; }
+      .delay-150 { animation-delay: 150ms; }
+      .delay-225 { animation-delay: 225ms; }
+      .delay-300 { animation-delay: 300ms; }
+      .delay-375 { animation-delay: 375ms; }
       h1, h2, h3, h4, h5, h6 {
         font-family: 'Outfit', sans-serif !important;
       }
       body {
         font-family: 'Inter', sans-serif !important;
-        background-image: linear-gradient(rgba(248, 250, 252, 0.86), rgba(248, 250, 252, 0.86)), url('./assets/images/site_background_enhanced.png') !important;
+        background-image: linear-gradient(rgba(248, 250, 252, 0.82), rgba(248, 250, 252, 0.82)), url('./assets/images/home_repair_bg.png') !important;
         background-attachment: fixed !important;
         background-size: cover !important;
         background-repeat: no-repeat !important;
+        transition: background-color 0.3s ease, color 0.3s ease;
       }
       /* Swipe Down Page Transition Curtain */
       #transition-curtain {
@@ -134,6 +165,127 @@
         transform: scaleX(1);
         transform-origin: bottom left;
       }
+
+      /* Dark Theme CSS Overrides */
+      html.dark {
+        background-color: #0f172a !important;
+        color-scheme: dark;
+      }
+      html.dark body {
+        background-image: linear-gradient(rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.92)), url('./assets/images/home_repair_bg.png') !important;
+        background-attachment: fixed !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        color: #cbd5e1 !important;
+      }
+      html.dark header {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+      }
+      html.dark header span, html.dark header a {
+        color: #f8fafc !important;
+      }
+      html.dark header a.nav-link {
+        color: #cbd5e1 !important;
+      }
+      html.dark header a.nav-link:hover {
+        color: #818cf8 !important;
+      }
+      html.dark header button {
+        color: #cbd5e1 !important;
+      }
+      html.dark header button:hover {
+        color: #f8fafc !important;
+      }
+      html.dark section {
+        border-color: #334155 !important;
+      }
+      html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark p, html.dark span {
+        color: #cbd5e1 !important;
+      }
+      html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark span.text-slate-900, html.dark h2.text-slate-900 {
+        color: #ffffff !important;
+      }
+      html.dark .text-slate-600 {
+        color: #94a3b8 !important;
+      }
+      html.dark .text-slate-500 {
+        color: #94a3b8 !important;
+      }
+      html.dark .bg-white {
+        background-color: #1e293b !important;
+      }
+      html.dark .border-slate-200 {
+        border-color: #334155 !important;
+      }
+      html.dark .bg-slate-50 {
+        background-color: #1e293b !important;
+      }
+      html.dark .border-slate-300 {
+        border-color: #475569 !important;
+      }
+      html.dark .bg-slate-50\/50 {
+        background-color: #0f172a/50 !important;
+      }
+      html.dark details {
+        border-color: #334155 !important;
+        background-color: #1e293b !important;
+      }
+      html.dark details summary {
+        background-color: #1e293b !important;
+        color: #ffffff !important;
+      }
+      html.dark details div {
+        background-color: #1e293b !important;
+        color: #cbd5e1 !important;
+      }
+      html.dark #booking-modal-panel, html.dark #provider-modal-panel, html.dark #signin-modal-panel {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+      }
+      html.dark #booking-modal-panel label, html.dark #provider-modal-panel label, html.dark #signin-modal-panel label {
+        color: #cbd5e1 !important;
+      }
+      html.dark #booking-modal-panel input, html.dark #booking-modal-panel textarea, html.dark #booking-modal-panel select,
+      html.dark #provider-modal-panel input, html.dark #provider-modal-panel select,
+      html.dark #signin-modal-panel input {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #ffffff !important;
+      }
+      html.dark #cost-estimator {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+      }
+      html.dark #cost-estimator .bg-slate-50 {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+      }
+      html.dark #cost-estimator input[type="range"] {
+        background-color: #334155 !important;
+      }
+      html.dark #cost-estimator select, html.dark #cost-estimator input {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #ffffff !important;
+      }
+      html.dark #cost-estimator label.flex {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+      }
+      html.dark #vendor-filter-bar {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+      }
+      html.dark #vendor-filter-bar input, html.dark #vendor-filter-bar select {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #ffffff !important;
+      }
+      html.dark #vendor-directory-grid .vendor-card {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+      }
     </style>
   </head>
   <body class="flex flex-col h-full text-slate-800 antialiased">
@@ -151,37 +303,54 @@
     </div>
 
     <header
-      class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm"
+      class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm transition-colors duration-300"
     >
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-          <div class="flex items-center space-x-2">
+      <div class="max-w-[95%] mx-auto px-4 sm:px-8 lg:px-12">
+        <div class="flex justify-between h-20 items-center">
+          <a
+            id="logo-btn"
+            href="#"
+            onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;"
+            class="flex items-center space-x-3 cursor-pointer group focus:outline-none"
+          >
             <div
-              class="h-9 w-9 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-lg"
+              class="h-11 w-11 bg-indigo-600 group-hover:bg-indigo-700 rounded-lg flex items-center justify-center text-white text-xl transition"
             >
               <i class="fa-solid fa-house-chimney-crack"></i>
             </div>
-            <span class="text-xl font-bold tracking-tight text-slate-900"
-              >FixMy<span class="text-indigo-600">Home</span></span
+            <span class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white"
+              >FixMy<span class="text-indigo-600 dark:text-indigo-400">Home</span></span
             >
-          </div>
+          </a>
 
           <nav
-            class="hidden md:flex space-x-8 text-sm font-medium text-slate-600"
+            class="hidden lg:flex space-x-6 text-[14px] font-medium text-slate-600"
           >
-            <a href="#dispatch-hub" class="nav-link hover:text-indigo-600 transition font-semibold"
+            <a href="#dispatch-hub" id="nav-find-tech" class="nav-link hover:text-indigo-600 transition font-semibold"
               >Find a Technician</a
             >
-            <a href="#operational-guarantee" id="how-it-works-link" class="nav-link hover:text-slate-900 transition font-semibold">How It Works</a>
-            <a href="#" onclick="openBookingModal('Emergency Support', 'High'); return false;" class="nav-link hover:text-slate-900 transition font-semibold"
-              >Emergency Support</a
+            <a href="#how-it-works" id="how-it-works-link" class="nav-link hover:text-indigo-600 transition font-semibold">How It Works</a>
+            <a href="#cost-estimator" id="nav-estimator" class="nav-link hover:text-indigo-600 transition font-semibold">Cost Estimator</a>
+            <a href="#testimonials" id="nav-testimonials" class="nav-link hover:text-indigo-600 transition font-semibold">Reviews</a>
+            <a href="#faq" id="nav-faq" class="nav-link hover:text-indigo-600 transition font-semibold">FAQs</a>
+            <a href="#" id="nav-emergency" onclick="openBookingModal('Emergency Support', 'High'); return false;" class="nav-link hover:text-slate-900 transition font-semibold"
+              >Emergency</a
             >
-            <a href="#" onclick="openProviderModal(); return false;" class="nav-link hover:text-slate-900 transition font-semibold"
+            <a href="#" id="nav-provider" onclick="openProviderModal(); return false;" class="nav-link hover:text-slate-900 transition font-semibold"
               >Join as Provider</a
             >
           </nav>
 
           <div class="flex items-center space-x-4">
+            <!-- Theme Toggle Button -->
+            <button
+              id="theme-toggle"
+              onclick="toggleTheme()"
+              class="text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 focus:outline-none text-lg p-2 rounded-full transition"
+            >
+              <i class="fa-solid fa-moon block dark:hidden"></i>
+              <i class="fa-solid fa-sun hidden dark:block"></i>
+            </button>
             <button
               onclick="openSignInModal()"
               class="text-sm font-medium text-slate-600 hover:text-slate-900"
@@ -190,7 +359,7 @@
             </button>
             <button
               onclick="openBookingModal('General Maintenance', 'Medium')"
-              class="bg-indigo-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-indigo-700 transition shadow-sm font-semibold"
+              class="bg-indigo-600 text-white text-sm font-medium px-6 py-2.5 rounded-lg hover:bg-indigo-700 transition shadow-sm font-semibold"
             >
               Book Now
             </button>
@@ -201,43 +370,37 @@
 
     <main class="flex-grow">
       <section
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center lg:text-left lg:flex lg:items-center lg:justify-between gap-12"
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-0 min-h-[calc(100vh-80px)] flex flex-col lg:flex-row items-center justify-between gap-12"
       >
         <div class="max-w-2xl">
           <span
-            class="inline-flex items-center rounded-md bg-indigo-50 px-2.5 py-0.5 text-xs font-semibold text-indigo-700 ring-1 ring-inset ring-indigo-700/10 mb-4"
+            class="inline-flex items-center rounded-md bg-indigo-50 px-2.5 py-0.5 text-xs font-semibold text-indigo-700 ring-1 ring-inset ring-indigo-700/10 mb-4 animate-fade-in-up"
             >Proximity Matching Engine</span
           >
           <h1
-            class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl leading-tight"
+            class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl leading-tight animate-fade-in-up delay-75"
           >
             On-demand property maintenance,
             <span class="text-indigo-600">matched by proximity</span>.
           </h1>
-          <p class="mt-4 text-lg text-slate-600 leading-relaxed">
+          <p class="mt-4 text-lg text-slate-600 leading-relaxed animate-fade-in-up delay-150">
             Eliminate the stress of emergency breakdowns. Connect instantly with
             trusted, certified neighborhood tradespeople located within your
             immediate geographic radius.
           </p>
           <div
-            class="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+            class="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in-up delay-225"
           >
             <button
               id="hero-detect-btn"
-              class="bg-indigo-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-indigo-700 transition text-center shadow-md font-semibold flex items-center justify-center"
+              class="bg-indigo-600 text-white font-medium px-8 py-3.5 rounded-lg hover:bg-indigo-700 transition text-center shadow-md font-semibold flex items-center justify-center"
             >
               <i class="fa-solid fa-location-crosshairs mr-2 animate-pulse"></i>Detect My Location
             </button>
-            <a
-              href="#dispatch-hub"
-              class="bg-white text-slate-700 border border-slate-300 font-medium px-6 py-3 rounded-lg hover:bg-slate-50 transition text-center shadow-sm flex items-center justify-center font-semibold"
-            >
-              Access Service Hub
-            </a>
           </div>
         </div>
 
-        <div class="hidden lg:block relative w-[480px] h-[320px] shrink-0">
+        <div class="hidden lg:block relative w-[480px] h-[320px] shrink-0 animate-fade-in-up delay-300">
           <div class="absolute inset-0 bg-indigo-600 rounded-3xl rotate-3 scale-95 opacity-10 blur-lg"></div>
           <!-- Hero Mockup Image -->
           <div class="absolute inset-0 rounded-2xl overflow-hidden border border-slate-200 shadow-2xl bg-white">
@@ -270,6 +433,100 @@
                   <i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i>Operational
                 </span>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How It Works Section -->
+      <section
+        id="how-it-works"
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 scroll-mt-24"
+      >
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Process Flow</span>
+          <h2 class="text-3xl font-black mt-3 font-heading text-slate-900">
+            How Proximity Dispatch Operates
+          </h2>
+          <p class="text-slate-600 text-sm mt-2">
+            Our state-of-the-art matching pipeline pairs your request with neighborhood pros in four direct steps.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+          <!-- Step 1 -->
+          <div class="bg-white/80 backdrop-blur-md rounded-2xl p-6 border border-slate-200/80 shadow-md relative hover:shadow-xl hover:border-indigo-500 transition duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="h-12 w-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition duration-300">
+                <i class="fa-solid fa-map-location-dot"></i>
+              </div>
+              <span class="absolute top-4 right-4 text-3xl font-black text-slate-100 group-hover:text-indigo-50 transition duration-300 font-heading">01</span>
+              <h3 class="text-lg font-bold text-slate-900 font-heading">Detect Location</h3>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Click position sensors to sync coordinates with proximity satellite grids.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100">
+              <span class="inline-flex items-center text-[10px] font-semibold text-emerald-600">
+                <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 mr-1.5 animate-ping"></span> GPS Ready
+              </span>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="bg-white/80 backdrop-blur-md rounded-2xl p-6 border border-slate-200/80 shadow-md relative hover:shadow-xl hover:border-indigo-500 transition duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="h-12 w-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition duration-300">
+                <i class="fa-solid fa-laptop-medical"></i>
+              </div>
+              <span class="absolute top-4 right-4 text-3xl font-black text-slate-100 group-hover:text-indigo-50 transition duration-300 font-heading">02</span>
+              <h3 class="text-lg font-bold text-slate-900 font-heading">AI Diagnosis</h3>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Upload incident photos to parse metadata and identify problem anomaly zones.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100">
+              <span class="inline-flex items-center text-[10px] font-semibold text-indigo-600">
+                <i class="fa-solid fa-robot mr-1"></i> CV Enabled
+              </span>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="bg-white/80 backdrop-blur-md rounded-2xl p-6 border border-slate-200/80 shadow-md relative hover:shadow-xl hover:border-indigo-500 transition duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="h-12 w-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition duration-300">
+                <i class="fa-solid fa-tower-broadcast"></i>
+              </div>
+              <span class="absolute top-4 right-4 text-3xl font-black text-slate-100 group-hover:text-indigo-50 transition duration-300 font-heading">03</span>
+              <h3 class="text-lg font-bold text-slate-900 font-heading">Proximity Match</h3>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Engine parses available technicians cruising within your spatial sector.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100">
+              <span class="inline-flex items-center text-[10px] font-semibold text-indigo-600">
+                <i class="fa-solid fa-wifi mr-1"></i> Sector Scan
+              </span>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="bg-white/80 backdrop-blur-md rounded-2xl p-6 border border-slate-200/80 shadow-md relative hover:shadow-xl hover:border-indigo-500 transition duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="h-12 w-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition duration-300">
+                <i class="fa-solid fa-truck-ramp-box"></i>
+              </div>
+              <span class="absolute top-4 right-4 text-3xl font-black text-slate-100 group-hover:text-indigo-50 transition duration-300 font-heading">04</span>
+              <h3 class="text-lg font-bold text-slate-900 font-heading">Direct Dispatch</h3>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Secure token triggers. Technicians head directly to your location coordinates.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100">
+              <span class="inline-flex items-center text-[10px] font-semibold text-emerald-600">
+                <i class="fa-solid fa-circle-check mr-1"></i> Job Done
+              </span>
             </div>
           </div>
         </div>
@@ -481,6 +738,155 @@
         </div>
       </section>
 
+      <!-- Interactive Cost Estimator & Quote Section -->
+      <section
+        id="cost-estimator"
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-200 scroll-mt-20"
+      >
+        <div class="bg-white border border-slate-200/80 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+          <div class="absolute -right-12 -top-12 w-48 h-48 bg-indigo-50 rounded-full -z-10 opacity-60"></div>
+          
+          <div class="max-w-3xl mb-8">
+            <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Instant Pricing Matrix</span>
+            <h2 class="text-3xl font-black mt-3 font-heading text-slate-900 flex items-center gap-3">
+              <i class="fa-solid fa-calculator text-indigo-600"></i>Interactive Cost Estimator
+            </h2>
+            <p class="text-slate-600 text-sm mt-1">
+              Calculate proximity dispatch costs transparently. Estimate standard labor hours and choose urgency parameters.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+            <!-- Left: Options Input Form -->
+            <div class="lg:col-span-2 space-y-5 bg-slate-50 p-6 rounded-xl border border-slate-200/60 flex flex-col justify-between">
+              <div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <!-- Service specialty selector -->
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Service Vertical</label>
+                    <select
+                      id="calc-service"
+                      class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition"
+                    >
+                      <option value="Plumbing Solutions" data-rate="95">Plumbing Solutions ($95/hr)</option>
+                      <option value="Electrical Engineering" data-rate="110">Electrical Engineering ($110/hr)</option>
+                      <option value="Carpentry & Structural" data-rate="85">Carpentry & Structural ($85/hr)</option>
+                      <option value="HVAC Systems" data-rate="120">HVAC Systems ($120/hr)</option>
+                      <option value="Appliance Service" data-rate="80">Appliance Service ($80/hr)</option>
+                    </select>
+                  </div>
+
+                  <!-- Urgency toggle selector -->
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Urgency Level</label>
+                    <select
+                      id="calc-urgency"
+                      class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition"
+                    >
+                      <option value="Low" data-multiplier="1.0">Standard Dispatch (1.0x)</option>
+                      <option value="Medium" data-multiplier="1.2">Priority Routing (1.2x)</option>
+                      <option value="High" data-multiplier="1.5">Emergency Blitz (1.5x)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Range Slider for Estimated Hours -->
+                <div class="mt-5">
+                  <div class="flex justify-between items-center mb-2">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Estimated Work Volume</label>
+                    <span class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded" id="calc-hours-val">2 Hours</span>
+                  </div>
+                  <input
+                    type="range"
+                    id="calc-hours"
+                    min="1"
+                    max="8"
+                    value="2"
+                    step="1"
+                    class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                  />
+                  <div class="flex justify-between text-[10px] text-slate-400 mt-1 font-mono">
+                    <span>1 Hour (Quick Fix)</span>
+                    <span>4 Hours (Half Day)</span>
+                    <span>8 Hours (Full Shift)</span>
+                  </div>
+                </div>
+
+                <!-- Service Add-ons Checkboxes -->
+                <div class="mt-5">
+                  <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Optional Service Add-ons</label>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <label class="flex items-center space-x-3 p-3 bg-white rounded-lg border border-slate-200/60 cursor-pointer hover:border-indigo-500 transition shadow-sm">
+                      <input type="checkbox" id="calc-parts" value="45" class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+                      <div>
+                        <span class="text-xs font-semibold text-slate-900 block">Common Spares Kit</span>
+                        <span class="text-[10px] text-slate-400">Add replacement components (+ $45)</span>
+                      </div>
+                    </label>
+                    <label class="flex items-center space-x-3 p-3 bg-white rounded-lg border border-slate-200/60 cursor-pointer hover:border-indigo-500 transition shadow-sm">
+                      <input type="checkbox" id="calc-priority" value="30" class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+                      <div>
+                        <span class="text-xs font-semibold text-slate-900 block">Premium Tech Guarantee</span>
+                        <span class="text-[10px] text-slate-400">Match top-rated 4.9+ specialists (+ $30)</span>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Real-time Live Quote Display -->
+            <div class="bg-indigo-950 text-white p-6 rounded-xl border border-indigo-900 flex flex-col justify-between hover:border-indigo-500 transition duration-300">
+              <div>
+                <h4 class="text-xs font-bold text-slate-100 font-heading mb-4 pb-2 border-b border-indigo-900 flex items-center justify-between">
+                  <span>Proximity Invoice Estimate</span>
+                  <span class="flex h-2 w-2 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                </h4>
+                
+                <div class="space-y-3 font-mono text-xs text-indigo-200">
+                  <div class="flex justify-between border-b border-indigo-900 pb-1.5">
+                    <span>Base Call-out Rate:</span>
+                    <span class="font-bold text-white">$45.00</span>
+                  </div>
+                  <div class="flex justify-between border-b border-indigo-900 pb-1.5">
+                    <span>Specialty Labor Rate:</span>
+                    <span class="font-bold text-white" id="quote-hourly-rate">$95.00/hr</span>
+                  </div>
+                  <div class="flex justify-between border-b border-indigo-900 pb-1.5">
+                    <span>Specialty Subtotal:</span>
+                    <span class="font-bold text-white" id="quote-subtotal">$190.00</span>
+                  </div>
+                  <div class="flex justify-between border-b border-indigo-900 pb-1.5">
+                    <span>Urgency Multiplier:</span>
+                    <span class="font-bold text-white" id="quote-multiplier">1.0x</span>
+                  </div>
+                  <div class="flex justify-between border-b border-indigo-900 pb-1.5">
+                    <span>Materials & Add-ons:</span>
+                    <span class="font-bold text-white" id="quote-addons">$0.00</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-6 pt-4 border-t border-indigo-900">
+                <div class="flex justify-between items-baseline mb-4">
+                  <span class="text-xs text-indigo-300 font-mono">ESTIMATED TOTAL:</span>
+                  <span class="text-3xl font-black text-emerald-400 font-heading" id="quote-total">$235.00</span>
+                </div>
+                <button
+                  id="calc-book-btn"
+                  class="w-full bg-emerald-400 hover:bg-emerald-500 text-slate-950 font-bold py-3 px-4 rounded-lg text-xs transition duration-200 shadow-lg flex items-center justify-center gap-1.5"
+                >
+                  Book this Estimate <i class="fa-solid fa-calculator text-[10px]"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Diagnostics Portal (Moved from Proximity Control for natural flow) -->
       <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-200 scroll-mt-20">
         <div class="bg-indigo-950 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden">
@@ -552,6 +958,100 @@
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <!-- Vendor Filter Bar Section -->
+      <section
+        id="vendor-filter"
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-slate-200 scroll-mt-20"
+      >
+        <div
+          id="vendor-filter-bar"
+          class="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-md flex flex-col md:flex-row gap-6 items-center justify-between transition-all duration-300"
+        >
+          <!-- Search input -->
+          <div class="w-full md:w-1/3 relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <i class="fa-solid fa-magnifying-glass text-xs"></i>
+            </span>
+            <input
+              type="text"
+              id="vendor-search"
+              placeholder="Search vendor shop name..."
+              class="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:bg-white rounded-lg pl-9 pr-3 py-2 text-xs text-slate-800 transition outline-none"
+            >
+          </div>
+
+          <!-- Specialty dropdown -->
+          <div class="w-full md:w-1/3">
+            <select
+              id="vendor-specialty"
+              class="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:bg-white rounded-lg px-3 py-2 text-xs text-slate-800 transition outline-none"
+            >
+              <option value="all">All Specialties</option>
+              <option value="Plumbing Solutions">Plumbing Solutions</option>
+              <option value="Electrical Engineering">Electrical Engineering</option>
+              <option value="Carpentry & Structural">Carpentry & Structural</option>
+            </select>
+          </div>
+
+          <!-- Radius slider -->
+          <div class="w-full md:w-1/3 flex flex-col">
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Search Radius</span>
+              <span id="radius-val" class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">10 km</span>
+            </div>
+            <input
+              type="range"
+              id="radius-slider"
+              min="1"
+              max="20"
+              value="10"
+              step="1"
+              class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- Featured Vendor Directory Section -->
+      <section
+        id="vendor-directory"
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 scroll-mt-20"
+      >
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Proximity Network</span>
+            <h2 class="text-3xl font-black mt-3 font-heading text-slate-900">
+              Featured Vendor Directory
+            </h2>
+          </div>
+          <p class="text-xs text-slate-500 max-w-sm text-right hidden sm:block">
+            Browse top-rated neighborhood shops and select local contractors coordinates dispatched in real-time.
+          </p>
+        </div>
+
+        <!-- Directory Grid -->
+        <div
+          id="vendor-directory-grid"
+          class="grid grid-cols-1 md:grid-cols-3 gap-8"
+        >
+          <!-- Vendor shop cards will be dynamically rendered here via Javascript -->
+        </div>
+
+        <!-- No Vendors Fallback State -->
+        <div
+          id="vendor-empty-state"
+          class="hidden flex-col items-center justify-center py-12 text-center"
+        >
+          <div class="h-16 w-16 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-400 text-2xl shadow-sm mb-4">
+            <i class="fa-solid fa-store-slash"></i>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 font-heading">No Shop Matches Found</h3>
+          <p class="text-xs text-slate-500 mt-1 max-w-xs">
+            Adjust search keys, select standard specialties, or expand search radius filter values.
+          </p>
         </div>
       </section>
 
@@ -650,30 +1150,259 @@
           </div>
         </div>
       </section>
-    </main>
 
-    <footer
-      class="bg-slate-900 text-slate-400 text-xs py-10 border-t border-slate-800"
-    >
-      <div
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-6"
+      <!-- Customer Testimonials Section -->
+      <section
+        id="testimonials"
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 scroll-mt-20"
       >
-        <div>
-          <p class="font-semibold text-slate-300 text-sm">
-            FixMyHome Technologies Inc.
-          </p>
-          <p class="mt-1">
-            &copy; 2026 FixMyHome. All rights reserved.
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Neighborhood Reviews</span>
+          <h2 class="text-3xl font-black mt-3 font-heading text-slate-900">
+            Real Reviews From Real Homeowners
+          </h2>
+          <p class="text-slate-600 text-sm mt-2">
+            Read stories from verified customers who got emergency repairs completed within minutes.
           </p>
         </div>
-        <div class="flex space-x-6 text-sm">
-          <a href="#" class="hover:text-white transition" onclick="showToast('Privacy Policy is locked in prototype.', 'info'); return false;"
-            >Privacy Policy</a
-          >
-          <a href="#" class="hover:text-white transition" onclick="showToast('API access keys locked for external developers.', 'info'); return false;"
-            >Developer API</a
-          >
-          <a href="#" class="hover:text-white transition" onclick="showToast('Security audits dashboard locked.', 'info'); return false;">Security & Audits</a>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Testimonial 1 -->
+          <div class="bg-white/80 backdrop-blur-md rounded-2xl p-6 border border-slate-200/80 shadow-md hover:shadow-xl hover:border-indigo-500 transition duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center space-x-1 text-amber-400 mb-3">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <p class="text-xs text-slate-600 italic leading-relaxed">
+                "Our kitchen basin started leaking uncontrollably late at night. I loaded FixMyHome, clicked GPS detect, and Arjun Sharma arrived in exactly 12 minutes! The repair was professional and fast. Exceptional service!"
+              </p>
+            </div>
+            <div class="flex items-center space-x-3 mt-6 pt-4 border-t border-slate-100">
+              <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-bold text-indigo-600 font-heading text-sm">
+                MK
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-slate-900 font-heading">Meera Kapoor</h4>
+                <p class="text-[10px] text-slate-400">Verified Plumbing Job</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="bg-white/80 backdrop-blur-md rounded-2xl p-6 border border-slate-200/80 shadow-md hover:shadow-xl hover:border-indigo-500 transition duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center space-x-1 text-amber-400 mb-3">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <p class="text-xs text-slate-600 italic leading-relaxed">
+                "I needed a custom electrical bracket diagnosed and fitted. Uploaded a photo of the old socket to the AI Diagnostics module, and within minutes, Priya Patel got matched and resolved the short circuit issue right away."
+              </p>
+            </div>
+            <div class="flex items-center space-x-3 mt-6 pt-4 border-t border-slate-100">
+              <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-bold text-indigo-600 font-heading text-sm">
+                AS
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-slate-900 font-heading">Amit Sen</h4>
+                <p class="text-[10px] text-slate-400">Verified Electrical Job</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="bg-white/80 backdrop-blur-md rounded-2xl p-6 border border-slate-200/80 shadow-md hover:shadow-xl hover:border-indigo-500 transition duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center space-x-1 text-amber-400 mb-3">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <p class="text-xs text-slate-600 italic leading-relaxed">
+                "The transparency is amazing. I used the cost calculator to estimate structural hinges repair, and the technician honorably matched the estimate exactly. No hidden charges or extra stress. Will use again!"
+              </p>
+            </div>
+            <div class="flex items-center space-x-3 mt-6 pt-4 border-t border-slate-100">
+              <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-bold text-indigo-600 font-heading text-sm">
+                RL
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-slate-900 font-heading">Rohan Luthra</h4>
+                <p class="text-[10px] text-slate-400">Verified Carpentry Job</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Accordion Section -->
+      <section
+        id="faq"
+        class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 scroll-mt-20"
+      >
+        <div class="text-center mb-12">
+          <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Got Questions?</span>
+          <h2 class="text-3xl font-black mt-3 font-heading text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <p class="text-slate-600 text-sm mt-2">
+            Find answers to commonly asked questions about spatial pairing, payments, and safety.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <!-- Q1 -->
+          <details class="group bg-white border border-slate-200 rounded-xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition duration-300 hover:border-indigo-500">
+            <summary class="flex justify-between items-center p-5 text-sm font-bold text-slate-900 cursor-pointer select-none font-heading bg-slate-50/50 hover:bg-slate-50">
+              <span>How does the proximity matching engine work?</span>
+              <span class="transition duration-300 group-open:-rotate-180 text-slate-400 group-hover:text-indigo-600">
+                <i class="fa-solid fa-chevron-down"></i>
+              </span>
+            </summary>
+            <div class="p-5 border-t border-slate-100 text-xs text-slate-600 leading-relaxed bg-white">
+              Our platform uses the browser's native Geolocation API to find your precise coordinates. We then map this coordinate vector against live mobile service units currently cruising in your area and route the closest match to you.
+            </div>
+          </details>
+
+          <!-- Q2 -->
+          <details class="group bg-white border border-slate-200 rounded-xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition duration-300 hover:border-indigo-500">
+            <summary class="flex justify-between items-center p-5 text-sm font-bold text-slate-900 cursor-pointer select-none font-heading bg-slate-50/50 hover:bg-slate-50">
+              <span>Is my location secure and private?</span>
+              <span class="transition duration-300 group-open:-rotate-180 text-slate-400 group-hover:text-indigo-600">
+                <i class="fa-solid fa-chevron-down"></i>
+              </span>
+            </summary>
+            <div class="p-5 border-t border-slate-100 text-xs text-slate-600 leading-relaxed bg-white">
+              Yes. Your location coordinates are only stored temporarily inside your browser's local storage to facilitate technician routing. The data is transferred over SSL and is never sold or used for advertising.
+            </div>
+          </details>
+
+          <!-- Q3 -->
+          <details class="group bg-white border border-slate-200 rounded-xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition duration-300 hover:border-indigo-500">
+            <summary class="flex justify-between items-center p-5 text-sm font-bold text-slate-900 cursor-pointer select-none font-heading bg-slate-50/50 hover:bg-slate-50">
+              <span>Are technicians licensed and verified?</span>
+              <span class="transition duration-300 group-open:-rotate-180 text-slate-400 group-hover:text-indigo-600">
+                <i class="fa-solid fa-chevron-down"></i>
+              </span>
+            </summary>
+            <div class="p-5 border-t border-slate-100 text-xs text-slate-600 leading-relaxed bg-white">
+              Absolutely. Every single service partner is required to upload licensing documentation, valid trade certifications, and pass rigorous criminal background screening before they are allowed onto the matching dashboard.
+            </div>
+          </details>
+
+          <!-- Q4 -->
+          <details class="group bg-white border border-slate-200 rounded-xl overflow-hidden [&_summary::-webkit-details-marker]:hidden transition duration-300 hover:border-indigo-500">
+            <summary class="flex justify-between items-center p-5 text-sm font-bold text-slate-900 cursor-pointer select-none font-heading bg-slate-50/50 hover:bg-slate-50">
+              <span>What is the Emergency Blitz multiplier?</span>
+              <span class="transition duration-300 group-open:-rotate-180 text-slate-400 group-hover:text-indigo-600">
+                <i class="fa-solid fa-chevron-down"></i>
+              </span>
+            </summary>
+            <div class="p-5 border-t border-slate-100 text-xs text-slate-600 leading-relaxed bg-white">
+              For high urgency issues requiring immediate routing (e.g. burst pipes or blackouts), our routing prioritizes your request, which applies a 1.5x multiplier to the labor subtotal to compensate providers for expedited service.
+            </div>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <!-- Expanded Footer Section -->
+    <footer class="bg-slate-900 text-slate-400 text-xs border-t border-slate-800">
+      <div class="max-w-[95%] mx-auto px-4 sm:px-8 lg:px-12 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-slate-800 pb-12 mb-12">
+          <!-- Column 1: Brand & Socials -->
+          <div class="space-y-4">
+            <div class="flex items-center space-x-2">
+              <div class="h-10 w-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-xl">
+                <i class="fa-solid fa-house-chimney-crack"></i>
+              </div>
+              <span class="text-2xl font-bold tracking-tight text-white font-heading">
+                FixMy<span class="text-indigo-500">Home</span>
+              </span>
+            </div>
+            <p class="text-slate-400 leading-relaxed text-xs">
+              On-demand neighborhood property maintenance matched dynamically by coordinates proximity. Reliable, verified, and transparent.
+            </p>
+            <div class="flex space-x-4 pt-2">
+              <a href="#" class="hover:text-indigo-400 transition text-base"><i class="fa-brands fa-twitter"></i></a>
+              <a href="#" class="hover:text-indigo-400 transition text-base"><i class="fa-brands fa-facebook"></i></a>
+              <a href="#" class="hover:text-indigo-400 transition text-base"><i class="fa-brands fa-linkedin"></i></a>
+              <a href="#" class="hover:text-indigo-400 transition text-base"><i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+
+          <!-- Column 2: Our Services -->
+          <div>
+            <h4 class="text-sm font-bold text-white font-heading mb-4 uppercase tracking-wider">Our Services</h4>
+            <ul class="space-y-2.5">
+              <li><a href="#" onclick="openBookingModal('Plumbing Solutions'); return false;" class="hover:text-indigo-400 hover:underline transition">Plumbing Solutions</a></li>
+              <li><a href="#" onclick="openBookingModal('Electrical Engineering'); return false;" class="hover:text-indigo-400 hover:underline transition">Electrical Engineering</a></li>
+              <li><a href="#" onclick="openBookingModal('Carpentry & Structural'); return false;" class="hover:text-indigo-400 hover:underline transition">Carpentry & Structural</a></li>
+              <li><a href="#" onclick="openBookingModal('HVAC Systems'); return false;" class="hover:text-indigo-400 hover:underline transition">HVAC Heating & Air</a></li>
+              <li><a href="#" onclick="openBookingModal('Appliance Service'); return false;" class="hover:text-indigo-400 hover:underline transition">Appliance Maintenance</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Company Network -->
+          <div>
+            <h4 class="text-sm font-bold text-white font-heading mb-4 uppercase tracking-wider">Company Network</h4>
+            <ul class="space-y-2.5">
+              <li><a href="#" onclick="openProviderModal(); return false;" class="hover:text-indigo-400 hover:underline transition">Join as Provider</a></li>
+              <li><a href="#" onclick="showToast('Careers page is under development.', 'info'); return false;" class="hover:text-indigo-400 hover:underline transition">Work with Us</a></li>
+              <li><a href="#" onclick="showToast('Partners program under construction.', 'info'); return false;" class="hover:text-indigo-400 hover:underline transition">Affiliate Partners</a></li>
+              <li><a href="#" onclick="showToast('Developer API documentation locked.', 'info'); return false;" class="hover:text-indigo-400 hover:underline transition">Developer API Keys</a></li>
+              <li><a href="#" onclick="showToast('Security audits page locked.', 'info'); return false;" class="hover:text-indigo-400 hover:underline transition">Security & Trust</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 4: Support & Status -->
+          <div class="space-y-4">
+            <h4 class="text-sm font-bold text-white font-heading mb-4 uppercase tracking-wider">Help & Contacts</h4>
+            <div class="space-y-3">
+              <div class="flex items-center space-x-2 text-slate-300">
+                <i class="fa-solid fa-phone text-indigo-500 text-sm"></i>
+                <span class="font-bold">1-800-FIX-HOME</span>
+              </div>
+              <div class="flex items-center space-x-2 text-slate-300">
+                <i class="fa-solid fa-envelope text-indigo-500 text-sm"></i>
+                <span>support@fixmyhome.com</span>
+              </div>
+            </div>
+            <div class="pt-4 border-t border-slate-800/80">
+              <div class="inline-flex items-center space-x-2 bg-emerald-950 border border-emerald-900 px-3 py-1.5 rounded-full text-emerald-400 font-mono text-[10px]">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span>System Status: 100% Online</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
+          <div>
+            <p class="font-semibold text-slate-300 text-sm font-heading">
+              FixMyHome Technologies Inc.
+            </p>
+            <p class="mt-1">
+              &copy; 2026 FixMyHome. All rights reserved. Registered spatial marketplace provider.
+            </p>
+          </div>
+          <div class="flex space-x-6 text-sm font-medium">
+            <a href="#" class="hover:text-white transition" onclick="showToast('Privacy Policy is locked in prototype.', 'info'); return false;">Privacy Policy</a>
+            <a href="#" class="hover:text-white transition" onclick="showToast('Terms of service locked.', 'info'); return false;">Terms of Service</a>
+            <a href="#" class="hover:text-white transition" onclick="showToast('SLA contract page locked.', 'info'); return false;">SLA Guarantee</a>
+          </div>
         </div>
       </div>
     </footer>
@@ -819,6 +1548,57 @@
       // ----------------------------------------------------
       // GLOBAL APP STATE & MOCK DATABASES
       // ----------------------------------------------------
+      const vendors = [
+        {
+          name: "Apex Plumbing",
+          specialty: "Plumbing Solutions",
+          rating: "4.9",
+          reviews: 184,
+          distance: 1.4,
+          status: "Available",
+          image: "./assets/images/service_plumbing.png",
+          icon: "fa-faucet-drip",
+          phone: "+91 99887 76655",
+          description: "Full-service emergency pipe repairs and proximity leak detection."
+        },
+        {
+          name: "Bright Volt Electrical",
+          specialty: "Electrical Engineering",
+          rating: "4.8",
+          reviews: 126,
+          distance: 2.7,
+          status: "On Route",
+          image: "./assets/images/service_electrical.png",
+          icon: "fa-bolt",
+          phone: "+91 88776 65544",
+          description: "Certified wire repairs, short diagnostic matches, and breaker fixes."
+        },
+        {
+          name: "Elite Carpentry",
+          specialty: "Carpentry & Structural",
+          rating: "4.7",
+          reviews: 95,
+          distance: 4.2,
+          status: "Available",
+          image: "./assets/images/service_carpentry.png",
+          icon: "fa-hammer",
+          phone: "+91 77665 54433",
+          description: "Premium structural wood renovations, locks fits, and hardware assemblies."
+        }
+      ];
+
+      function toggleTheme() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem("fixmyhome_theme", isDark ? "dark" : "light");
+      }
+      window.toggleTheme = toggleTheme;
+
+      function openVendorBooking(vendorName, specialty) {
+        const desc = `Direct Dispatch Request for ${vendorName} (${specialty}). Please confirm coordination parameters.`;
+        openBookingModal(specialty, 'Medium', desc);
+      }
+      window.openVendorBooking = openVendorBooking;
+
       const technicians = [
         {
           name: "Arjun Sharma",
@@ -889,13 +1669,14 @@
       // ----------------------------------------------------
       // BOOKING MODAL HANDLERS
       // ----------------------------------------------------
-      function openBookingModal(specialty, defaultUrgency = 'Medium') {
+      function openBookingModal(specialty, defaultUrgency = 'Medium', description = '') {
         const modal = document.getElementById("booking-modal");
         const panel = document.getElementById("booking-modal-panel");
         const subtitle = document.getElementById("booking-specialty-subtitle");
         const title = document.getElementById("booking-specialty-title");
         const form = document.getElementById("booking-form");
         const urgencySelect = document.getElementById("booking-urgency");
+        const descTextarea = document.getElementById("booking-description");
         
         subtitle.innerText = `${specialty} Sector`;
         title.innerText = `Request Proximity Match`;
@@ -903,6 +1684,9 @@
         
         if (urgencySelect) {
           urgencySelect.value = defaultUrgency;
+        }
+        if (descTextarea && description) {
+          descTextarea.value = description;
         }
         
         modal.classList.remove("hidden");
@@ -1289,13 +2073,7 @@
           }, 1600);
         }
 
-        const howItWorksLink = document.getElementById("how-it-works-link");
-        if (howItWorksLink) {
-          howItWorksLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            triggerSwipeTransition("#operational-guarantee");
-          });
-        }
+
 
         // Evacuate local registry elements manually
         clearCacheBtn.addEventListener("click", () => {
@@ -1402,6 +2180,165 @@
             });
           }
         }
+
+        // ----------------------------------------------------
+        // PRICING CALCULATOR LOGIC
+        // ----------------------------------------------------
+        const calcService = document.getElementById("calc-service");
+        const calcUrgency = document.getElementById("calc-urgency");
+        const calcHours = document.getElementById("calc-hours");
+        const calcHoursVal = document.getElementById("calc-hours-val");
+        const calcParts = document.getElementById("calc-parts");
+        const calcPriority = document.getElementById("calc-priority");
+        const calcBookBtn = document.getElementById("calc-book-btn");
+
+        const quoteHourlyRate = document.getElementById("quote-hourly-rate");
+        const quoteSubtotal = document.getElementById("quote-subtotal");
+        const quoteMultiplier = document.getElementById("quote-multiplier");
+        const quoteAddons = document.getElementById("quote-addons");
+        const quoteTotal = document.getElementById("quote-total");
+
+        function calculateQuote() {
+          if (!calcService || !calcUrgency || !calcHours) return;
+
+          const baseRate = 45;
+          const selectedOption = calcService.options[calcService.selectedIndex];
+          const laborRate = parseFloat(selectedOption.getAttribute("data-rate"));
+          
+          const urgencyOption = calcUrgency.options[calcUrgency.selectedIndex];
+          const multiplier = parseFloat(urgencyOption.getAttribute("data-multiplier"));
+          
+          const hours = parseInt(calcHours.value);
+          if (calcHoursVal) {
+            calcHoursVal.innerText = hours + (hours === 1 ? " Hour" : " Hours");
+          }
+
+          const subtotal = laborRate * hours;
+          const multipliedSubtotal = subtotal * multiplier;
+          
+          let addons = 0;
+          if (calcParts && calcParts.checked) addons += parseFloat(calcParts.value);
+          if (calcPriority && calcPriority.checked) addons += parseFloat(calcPriority.value);
+
+          const total = baseRate + multipliedSubtotal + addons;
+
+          if (quoteHourlyRate) quoteHourlyRate.innerText = `$${laborRate.toFixed(2)}/hr`;
+          if (quoteSubtotal) quoteSubtotal.innerText = `$${subtotal.toFixed(2)}`;
+          if (quoteMultiplier) quoteMultiplier.innerText = `${multiplier.toFixed(1)}x`;
+          if (quoteAddons) quoteAddons.innerText = `$${addons.toFixed(2)}`;
+          if (quoteTotal) quoteTotal.innerText = `$${total.toFixed(2)}`;
+
+          return {
+            serviceName: selectedOption.value,
+            urgencyLevel: calcUrgency.value,
+            hours: hours,
+            total: total
+          };
+        }
+
+        if (calcService) calcService.addEventListener("change", calculateQuote);
+        if (calcUrgency) calcUrgency.addEventListener("change", calculateQuote);
+        if (calcHours) calcHours.addEventListener("input", calculateQuote);
+        if (calcParts) calcParts.addEventListener("change", calculateQuote);
+        if (calcPriority) calcPriority.addEventListener("change", calculateQuote);
+
+        if (calcBookBtn) {
+          calcBookBtn.addEventListener("click", () => {
+            const data = calculateQuote();
+            if (data) {
+              const description = `Interactive Estimate details:\n- Specialty: ${data.serviceName}\n- Estimated labor: ${data.hours} hours\n- Urgency: ${data.urgencyLevel}\n- Estimated quote: $${data.total.toFixed(2)}`;
+              openBookingModal(data.serviceName, data.urgencyLevel, description);
+            }
+          });
+        }
+
+        // Initialize calculator once on page load
+        calculateQuote();
+
+        // ----------------------------------------------------
+        // VENDOR FILTER & DIRECTORY LOGIC
+        // ----------------------------------------------------
+        const vendorSearch = document.getElementById("vendor-search");
+        const vendorSpecialty = document.getElementById("vendor-specialty");
+        const radiusSlider = document.getElementById("radius-slider");
+        const radiusVal = document.getElementById("radius-val");
+        const vendorGrid = document.getElementById("vendor-directory-grid");
+        const vendorEmpty = document.getElementById("vendor-empty-state");
+
+        function renderVendors() {
+          if (!vendorGrid) return;
+
+          const query = vendorSearch ? vendorSearch.value.toLowerCase().trim() : "";
+          const specialty = vendorSpecialty ? vendorSpecialty.value : "all";
+          const maxRadius = radiusSlider ? parseFloat(radiusSlider.value) : 10;
+
+          if (radiusVal && radiusSlider) {
+            radiusVal.innerText = `${maxRadius} km`;
+          }
+
+          // Filter vendors
+          const filtered = vendors.filter(vendor => {
+            const matchesSearch = vendor.name.toLowerCase().includes(query);
+            const matchesSpecialty = specialty === "all" || vendor.specialty === specialty;
+            const matchesRadius = vendor.distance <= maxRadius;
+            return matchesSearch && matchesSpecialty && matchesRadius;
+          });
+
+          // Render
+          vendorGrid.innerHTML = "";
+          if (filtered.length === 0) {
+            vendorEmpty.classList.remove("hidden");
+            vendorEmpty.classList.add("flex");
+          } else {
+            vendorEmpty.classList.remove("flex");
+            vendorEmpty.classList.add("hidden");
+
+            filtered.forEach(vendor => {
+              const card = document.createElement("div");
+              card.className = "bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-indigo-500 transition duration-300 group flex flex-col justify-between vendor-card";
+              card.innerHTML = `
+                <div>
+                  <div class="h-44 overflow-hidden relative">
+                    <img src="${vendor.image}" alt="${vendor.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute top-3 right-3 bg-indigo-600 text-white rounded-full p-2 h-9 w-9 flex items-center justify-center text-sm shadow">
+                      <i class="fa-solid ${vendor.icon}"></i>
+                    </div>
+                    <div class="absolute bottom-3 left-3 bg-slate-900/80 backdrop-blur-sm text-white px-2 py-0.5 rounded text-[10px] font-mono flex items-center gap-1">
+                      <span class="h-1.5 w-1.5 rounded-full ${vendor.status === 'Available' ? 'bg-emerald-400' : 'bg-amber-400'} animate-pulse"></span>
+                      <span>${vendor.status}</span>
+                    </div>
+                  </div>
+                  <div class="p-6">
+                    <div class="flex justify-between items-start gap-2">
+                      <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 transition font-heading">${vendor.name}</h3>
+                      <span class="inline-flex items-center text-[10px] font-bold text-amber-600 bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded shrink-0">
+                        <i class="fa-solid fa-star mr-1"></i>${vendor.rating}
+                      </span>
+                    </div>
+                    <p class="text-[11px] text-indigo-600 dark:text-indigo-400 font-semibold mt-1">${vendor.specialty}</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">${vendor.description}</p>
+                  </div>
+                </div>
+                <div class="px-6 pb-6 pt-0 flex items-center justify-between gap-4 border-t border-slate-100 dark:border-slate-800/80 pt-4 mt-2">
+                  <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded">
+                    <i class="fa-solid fa-location-dot mr-1"></i>${vendor.distance} km
+                  </span>
+                  <button onclick="openVendorBooking('${vendor.name}', '${vendor.specialty}')" class="bg-indigo-600 text-white hover:bg-indigo-700 transition font-semibold text-[11px] py-1.5 px-3.5 rounded-lg shadow-sm flex items-center gap-1">
+                    Request Dispatch <i class="fa-solid fa-chevron-right text-[8px]"></i>
+                  </button>
+                </div>
+              `;
+              vendorGrid.appendChild(card);
+            });
+          }
+        }
+
+        if (vendorSearch) vendorSearch.addEventListener("input", renderVendors);
+        if (vendorSpecialty) vendorSpecialty.addEventListener("change", renderVendors);
+        if (radiusSlider) radiusSlider.addEventListener("input", renderVendors);
+
+        // Initial render
+        renderVendors();
       });
     </script>
   </body>
