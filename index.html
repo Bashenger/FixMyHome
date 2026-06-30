@@ -36,6 +36,9 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <!-- Leaflet Map Library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <style>
       html {
         scroll-behavior: smooth;
@@ -200,17 +203,62 @@
       html.dark section {
         border-color: #334155 !important;
       }
-      html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark p, html.dark span {
+      html.dark h1, html.dark h2, html.dark h3, html.dark h4 {
+        color: #ffffff !important;
+      }
+      html.dark p {
         color: #cbd5e1 !important;
       }
-      html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark span.text-slate-900, html.dark h2.text-slate-900 {
+      html.dark .bg-white\/80 {
+        background-color: rgba(30, 41, 59, 0.8) !important;
+      }
+      html.dark .bg-slate-50\/50 {
+        background-color: rgba(15, 23, 42, 0.5) !important;
+      }
+      html.dark .border-slate-200\/80 {
+        border-color: rgba(51, 65, 85, 0.8) !important;
+      }
+      html.dark .bg-indigo-50 {
+        background-color: rgba(99, 102, 241, 0.15) !important;
+      }
+      html.dark .text-indigo-700 {
+        color: #a5b4fc !important;
+      }
+      html.dark .text-indigo-600 {
+        color: #818cf8 !important;
+      }
+      html.dark .ring-indigo-700\/10 {
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), 0 0 0 1px rgba(129, 140, 248, 0.2) !important;
+      }
+      html.dark .text-slate-950 {
         color: #ffffff !important;
+      }
+      html.dark .text-slate-900 {
+        color: #ffffff !important;
+      }
+      html.dark .text-slate-500 {
+        color: #94a3b8 !important;
+      }
+      html.dark .text-slate-800 {
+        color: #e2e8f0 !important;
+      }
+      html.dark .text-slate-700 {
+        color: #cbd5e1 !important;
+      }
+      html.dark .text-slate-650 {
+        color: #cbd5e1 !important;
       }
       html.dark .text-slate-600 {
         color: #94a3b8 !important;
       }
       html.dark .text-slate-500 {
         color: #94a3b8 !important;
+      }
+      html.dark .text-emerald-600 {
+        color: #34d399 !important;
+      }
+      html.dark .text-emerald-700 {
+        color: #34d399 !important;
       }
       html.dark .bg-white {
         background-color: #1e293b !important;
@@ -351,12 +399,20 @@
               <i class="fa-solid fa-moon block dark:hidden"></i>
               <i class="fa-solid fa-sun hidden dark:block"></i>
             </button>
-            <button
-              onclick="openSignInModal()"
-              class="text-sm font-medium text-slate-600 hover:text-slate-900"
-            >
-              Sign In
-            </button>
+            <div id="auth-menu-container" class="flex items-center space-x-3">
+              <a
+                href="/login.html"
+                class="text-sm font-medium text-slate-650 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white"
+              >
+                Sign In
+              </a>
+              <a
+                href="/register.html"
+                class="text-sm font-medium text-indigo-650 dark:text-indigo-400 hover:underline"
+              >
+                Register
+              </a>
+            </div>
             <button
               onclick="openBookingModal('General Maintenance', 'Medium')"
               class="bg-indigo-600 text-white text-sm font-medium px-6 py-2.5 rounded-lg hover:bg-indigo-700 transition shadow-sm font-semibold"
@@ -370,44 +426,73 @@
 
     <main class="flex-grow">
       <section
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-0 min-h-[calc(100vh-80px)] flex flex-col lg:flex-row items-center justify-between gap-12"
+        class="max-w-[95%] sm:max-w-[90%] mx-auto px-4 sm:px-8 lg:px-12 py-16 lg:py-0 min-h-[calc(100vh-80px)] flex flex-col lg:flex-row items-center justify-between gap-16"
       >
-        <div class="max-w-2xl">
+        <div class="max-w-3xl lg:max-w-4xl flex flex-col justify-center">
           <span
-            class="inline-flex items-center rounded-md bg-indigo-50 px-2.5 py-0.5 text-xs font-semibold text-indigo-700 ring-1 ring-inset ring-indigo-700/10 mb-4 animate-fade-in-up"
+            class="inline-flex items-center rounded-md bg-indigo-50 px-2.5 py-1 text-xs font-bold text-indigo-700 ring-1 ring-inset ring-indigo-700/10 mb-6 animate-fade-in-up self-start"
             >Proximity Matching Engine</span
           >
           <h1
-            class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl leading-tight animate-fade-in-up delay-75"
+            class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl leading-tight animate-fade-in-up delay-75"
           >
             On-demand property maintenance,
-            <span class="text-indigo-600">matched by proximity</span>.
+            <span class="inline-block pb-2 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-700 dark:from-indigo-400 dark:to-indigo-300">matched by proximity</span>.
           </h1>
-          <p class="mt-4 text-lg text-slate-600 leading-relaxed animate-fade-in-up delay-150">
+          <p class="mt-6 text-lg text-slate-650 dark:text-slate-350 leading-relaxed animate-fade-in-up delay-150 max-w-2xl">
             Eliminate the stress of emergency breakdowns. Connect instantly with
             trusted, certified neighborhood tradespeople located within your
             immediate geographic radius.
           </p>
           <div
-            class="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in-up delay-225"
+            class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in-up delay-225"
           >
             <button
               id="hero-detect-btn"
-              class="bg-indigo-600 text-white font-medium px-8 py-3.5 rounded-lg hover:bg-indigo-700 transition text-center shadow-md font-semibold flex items-center justify-center"
+              class="bg-indigo-600 text-white font-bold px-10 py-4 rounded-xl hover:bg-indigo-700 transition duration-300 text-center shadow-lg hover:shadow-indigo-500/20 text-sm flex items-center justify-center group"
             >
-              <i class="fa-solid fa-location-crosshairs mr-2 animate-pulse"></i>Detect My Location
+              <i class="fa-solid fa-location-crosshairs mr-2 animate-pulse text-emerald-400"></i>Detect My Location
             </button>
+          </div>
+
+          <!-- Trust Indicators / Proximity Stats Row -->
+          <div class="mt-14 pt-8 border-t border-slate-200 dark:border-slate-800/80 grid grid-cols-3 gap-8 animate-fade-in-up delay-300">
+            <div>
+              <span class="block text-3xl font-black text-slate-900 dark:text-white font-heading tracking-tight"><span class="count-up" data-target="12">0</span> Min</span>
+              <span class="block text-[10px] uppercase font-black tracking-wider text-slate-400 dark:text-slate-500 mt-1.5">Avg Response ETA</span>
+            </div>
+            <div>
+              <span class="block text-3xl font-black text-slate-900 dark:text-white font-heading tracking-tight"><span class="count-up" data-target="4.9">0.0</span> / 5</span>
+              <span class="block text-[10px] uppercase font-black tracking-wider text-slate-400 dark:text-slate-500 mt-1.5">Customer Rating</span>
+            </div>
+            <div>
+              <span class="block text-3xl font-black text-slate-900 dark:text-white font-heading tracking-tight"><span class="count-up" data-target="100">0</span>%</span>
+              <span class="block text-[10px] uppercase font-black tracking-wider text-slate-400 dark:text-slate-500 mt-1.5">Verified Network</span>
+            </div>
           </div>
         </div>
 
-        <div class="hidden lg:block relative w-[480px] h-[320px] shrink-0 animate-fade-in-up delay-300">
-          <div class="absolute inset-0 bg-indigo-600 rounded-3xl rotate-3 scale-95 opacity-10 blur-lg"></div>
+        <div class="hidden lg:block relative w-[580px] h-[380px] shrink-0 animate-fade-in-up delay-300">
+          <div class="absolute inset-0 bg-indigo-650 rounded-3xl rotate-3 scale-95 opacity-10 blur-xl"></div>
+          
           <!-- Hero Mockup Image -->
-          <div class="absolute inset-0 rounded-2xl overflow-hidden border border-slate-200 shadow-2xl bg-white">
-            <img src="./assets/images/hero_mockup.png" alt="Proximity GPS Dispatch Mockup" class="w-full h-full object-cover">
+          <div class="absolute inset-0 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl bg-slate-900">
+            <img src="./assets/images/hero_mockup.png" alt="Proximity GPS Dispatch Mockup" class="w-full h-full object-cover opacity-90 hover:scale-102 transition duration-700">
           </div>
+
+          <!-- Overlaid Operational Trust badge -->
+          <div class="absolute -top-6 -right-6 bg-indigo-950/95 backdrop-blur-md rounded-xl shadow-2xl p-3 text-white border border-indigo-900 flex items-center space-x-3 transition hover:scale-105 duration-300">
+            <div class="h-8 w-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-md shadow">
+              <i class="fa-solid fa-shield-check text-emerald-400"></i>
+            </div>
+            <div>
+              <span class="block text-[8px] uppercase tracking-wider text-indigo-400 font-mono font-bold">Platform SLA</span>
+              <span class="block text-xs font-bold text-slate-100">100% Quality Guaranteed</span>
+            </div>
+          </div>
+
           <!-- Overlaid Live Network Monitor Widget -->
-          <div class="absolute bottom-4 -left-6 w-72 bg-slate-900/95 backdrop-blur-md rounded-xl shadow-xl p-4 text-white border border-slate-700/50">
+          <div class="absolute -bottom-6 -left-10 w-76 bg-slate-900/95 backdrop-blur-md rounded-xl shadow-2xl p-4 text-white border border-slate-700/50 transition hover:scale-102 duration-300">
             <div class="flex items-center justify-between pb-2 border-b border-slate-800">
               <span class="text-[10px] uppercase tracking-wider text-indigo-400 font-bold">
                 <i class="fa-solid fa-satellite-dish mr-1"></i> Network Monitor
@@ -418,7 +503,7 @@
               </span>
             </div>
             <p class="text-sm font-bold mt-1 text-slate-100 font-heading">Live Proximity Dispatch</p>
-            <div class="mt-3 space-y-2 text-xs text-slate-300">
+            <div class="mt-3 space-y-2 text-xs text-slate-350">
               <div class="flex justify-between border-b border-slate-800/50 pb-1">
                 <span>Verified Techs Nearby:</span>
                 <span class="font-mono font-bold text-indigo-400" id="nearby-techs-counter">42 Pros</span>
@@ -583,6 +668,8 @@
                 >
                   Status: Idle. Awaiting satellite lock...
                 </div>
+                <!-- Leaflet Live Map Display -->
+                <div id="map" class="w-full h-56 rounded-lg border border-indigo-900/50 mt-4 z-10 shadow-inner overflow-hidden"></div>
               </div>
 
               <!-- Integration of Alert Settings toggle inside Location Settings! -->
@@ -768,11 +855,11 @@
                       id="calc-service"
                       class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition"
                     >
-                      <option value="Plumbing Solutions" data-rate="95">Plumbing Solutions ($95/hr)</option>
-                      <option value="Electrical Engineering" data-rate="110">Electrical Engineering ($110/hr)</option>
-                      <option value="Carpentry & Structural" data-rate="85">Carpentry & Structural ($85/hr)</option>
-                      <option value="HVAC Systems" data-rate="120">HVAC Systems ($120/hr)</option>
-                      <option value="Appliance Service" data-rate="80">Appliance Service ($80/hr)</option>
+                      <option value="Plumbing Solutions" data-rate="250">Plumbing Solutions (₹250/hr)</option>
+                      <option value="Electrical Engineering" data-rate="350">Electrical Engineering (₹350/hr)</option>
+                      <option value="Carpentry & Structural" data-rate="200">Carpentry & Structural (₹200/hr)</option>
+                      <option value="HVAC Systems" data-rate="400">HVAC Systems (₹400/hr)</option>
+                      <option value="Appliance Service" data-rate="300">Appliance Service (₹300/hr)</option>
                     </select>
                   </div>
 
@@ -817,17 +904,17 @@
                   <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Optional Service Add-ons</label>
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <label class="flex items-center space-x-3 p-3 bg-white rounded-lg border border-slate-200/60 cursor-pointer hover:border-indigo-500 transition shadow-sm">
-                      <input type="checkbox" id="calc-parts" value="45" class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+                      <input type="checkbox" id="calc-parts" value="150" class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
                       <div>
                         <span class="text-xs font-semibold text-slate-900 block">Common Spares Kit</span>
-                        <span class="text-[10px] text-slate-400">Add replacement components (+ $45)</span>
+                        <span class="text-[10px] text-slate-400">Add replacement components (+ ₹150)</span>
                       </div>
                     </label>
                     <label class="flex items-center space-x-3 p-3 bg-white rounded-lg border border-slate-200/60 cursor-pointer hover:border-indigo-500 transition shadow-sm">
-                      <input type="checkbox" id="calc-priority" value="30" class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+                      <input type="checkbox" id="calc-priority" value="100" class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
                       <div>
                         <span class="text-xs font-semibold text-slate-900 block">Premium Tech Guarantee</span>
-                        <span class="text-[10px] text-slate-400">Match top-rated 4.9+ specialists (+ $30)</span>
+                        <span class="text-[10px] text-slate-400">Match top-rated 4.9+ specialists (+ ₹100)</span>
                       </div>
                     </label>
                   </div>
@@ -849,15 +936,15 @@
                 <div class="space-y-3 font-mono text-xs text-indigo-200">
                   <div class="flex justify-between border-b border-indigo-900 pb-1.5">
                     <span>Base Call-out Rate:</span>
-                    <span class="font-bold text-white">$45.00</span>
+                    <span class="font-bold text-white">₹150.00</span>
                   </div>
                   <div class="flex justify-between border-b border-indigo-900 pb-1.5">
                     <span>Specialty Labor Rate:</span>
-                    <span class="font-bold text-white" id="quote-hourly-rate">$95.00/hr</span>
+                    <span class="font-bold text-white" id="quote-hourly-rate">₹250.00/hr</span>
                   </div>
                   <div class="flex justify-between border-b border-indigo-900 pb-1.5">
                     <span>Specialty Subtotal:</span>
-                    <span class="font-bold text-white" id="quote-subtotal">$190.00</span>
+                    <span class="font-bold text-white" id="quote-subtotal">₹500.00</span>
                   </div>
                   <div class="flex justify-between border-b border-indigo-900 pb-1.5">
                     <span>Urgency Multiplier:</span>
@@ -865,7 +952,7 @@
                   </div>
                   <div class="flex justify-between border-b border-indigo-900 pb-1.5">
                     <span>Materials & Add-ons:</span>
-                    <span class="font-bold text-white" id="quote-addons">$0.00</span>
+                    <span class="font-bold text-white" id="quote-addons">₹0.00</span>
                   </div>
                 </div>
               </div>
@@ -873,7 +960,7 @@
               <div class="mt-6 pt-4 border-t border-indigo-900">
                 <div class="flex justify-between items-baseline mb-4">
                   <span class="text-xs text-indigo-300 font-mono">ESTIMATED TOTAL:</span>
-                  <span class="text-3xl font-black text-emerald-400 font-heading" id="quote-total">$235.00</span>
+                  <span class="text-3xl font-black text-emerald-400 font-heading" id="quote-total">₹650.00</span>
                 </div>
                 <button
                   id="calc-book-btn"
@@ -1710,23 +1797,40 @@
       }
       window.closeBookingModal = closeBookingModal;
 
-      function handleBookingSubmit(event) {
+      async function handleBookingSubmit(event) {
         event.preventDefault();
-        const name = document.getElementById("booking-name").value;
+        const name = document.getElementById("booking-name").value.trim();
+        const phone = document.getElementById("booking-phone").value.trim();
         const urgency = document.getElementById("booking-urgency").value;
-        
-        closeBookingModal();
-        showToast(`Routing request created successfully for ${name}!`, "success");
-        
-        // Auto trigger tracking screen and geolocation sensor check
-        setTimeout(() => {
-          showToast(`Initializing real-time proximity scanning (${urgency} Urgency)...`, "info");
-          document.getElementById("dispatch-hub").scrollIntoView({ behavior: "smooth" });
-          
-          // Trigger the geolocation button action
-          const geoBtn = document.getElementById("geo-btn");
-          if (geoBtn) geoBtn.click();
-        }, 800);
+        const description = document.getElementById("booking-description").value.trim();
+        const specialty = document.getElementById("booking-specialty-subtitle").innerText.replace(" Sector", "").trim();
+
+        try {
+          const res = await fetch('/api/bookings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, phone, specialty, urgency, description })
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            closeBookingModal();
+            showToast(`Routing request created successfully in database for ${name}!`, "success");
+            
+            // Auto trigger tracking screen and geolocation sensor check
+            setTimeout(() => {
+              showToast(`Initializing real-time proximity scanning (${urgency} Urgency)...`, "info");
+              document.getElementById("dispatch-hub").scrollIntoView({ behavior: "smooth" });
+              
+              // Trigger the geolocation button action
+              const geoBtn = document.getElementById("geo-btn");
+              if (geoBtn) geoBtn.click();
+            }, 800);
+          } else {
+            showToast(data.error || "Failed to create booking.", "error");
+          }
+        } catch (err) {
+          showToast("Network error creating booking.", "error");
+        }
       }
       window.handleBookingSubmit = handleBookingSubmit;
 
@@ -1758,50 +1862,91 @@
       }
       window.closeProviderModal = closeProviderModal;
 
-      function handleProviderSubmit(event) {
+      async function handleProviderSubmit(event) {
         event.preventDefault();
-        const providerName = document.getElementById("provider-name").value;
-        closeProviderModal();
-        showToast(`Application submitted successfully for ${providerName}!`, "success");
-        showToast("Compliance screening initiated. ETA: 24 Hours.", "info");
+        const name = document.getElementById("provider-name").value.trim();
+        const specialtySel = document.getElementById("provider-specialty");
+        const specialty = specialtySel.options[specialtySel.selectedIndex].text;
+        const license = document.getElementById("provider-license").value.trim();
+        const email = document.getElementById("provider-email").value.trim();
+
+        try {
+          const res = await fetch('/api/providers', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, specialty, license })
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            closeProviderModal();
+            showToast(`Application submitted successfully for ${name}!`, "success");
+            showToast("Pro account created. Default login password is 'provider'.", "success");
+          } else {
+            showToast(data.error || "Failed to submit provider registration.", "error");
+          }
+        } catch (err) {
+          showToast("Network error submitting application.", "error");
+        }
       }
       window.handleProviderSubmit = handleProviderSubmit;
 
       // ----------------------------------------------------
-      // SIGN IN MODAL HANDLERS
+      // SIGN IN MODAL HANDLERS (Redirected to login.html for full-stack auth)
       // ----------------------------------------------------
       function openSignInModal() {
-        const modal = document.getElementById("signin-modal");
-        const panel = document.getElementById("signin-modal-panel");
-        
-        modal.classList.remove("hidden");
-        modal.classList.add("flex");
-        
-        setTimeout(() => {
-          panel.classList.remove("scale-95", "opacity-0");
-        }, 10);
+        window.location.href = '/login.html';
       }
       window.openSignInModal = openSignInModal;
 
       function closeSignInModal() {
-        const modal = document.getElementById("signin-modal");
-        const panel = document.getElementById("signin-modal-panel");
-        
-        panel.classList.add("scale-95", "opacity-0");
-        setTimeout(() => {
-          modal.classList.remove("flex");
-          modal.classList.add("hidden");
-        }, 300);
+        // modal is redirected, no-op
       }
       window.closeSignInModal = closeSignInModal;
 
-      function handleSignInSubmit(event) {
-        event.preventDefault();
-        const email = document.getElementById("signin-email").value;
-        closeSignInModal();
-        showToast(`Successfully signed in as ${email}!`, "success");
+      async function checkSession() {
+        try {
+          const res = await fetch('/api/session');
+          const data = await res.json();
+          const authContainer = document.getElementById("auth-menu-container");
+          if (!authContainer) return;
+          
+          if (data.loggedIn) {
+            let adminLink = "";
+            if (data.user.role === 'admin') {
+              adminLink = `<a href="/admin.html" class="text-xs font-bold text-indigo-650 dark:text-indigo-400 hover:underline"><i class="fa-solid fa-gauge mr-1"></i>Admin</a>`;
+            }
+            authContainer.innerHTML = `
+              <div class="flex items-center space-x-3">
+                <span class="text-xs font-medium text-slate-650 dark:text-slate-350">
+                  Hi, <strong>${data.user.name.split(' ')[0]}</strong>
+                </span>
+                ${adminLink}
+                <button onclick="handleLogout()" class="text-xs font-bold text-rose-500 hover:text-rose-650 transition">Sign Out</button>
+              </div>
+            `;
+          } else {
+            authContainer.innerHTML = `
+              <a href="/login.html" class="text-sm font-medium text-slate-600 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white">Sign In</a>
+              <a href="/register.html" class="text-sm font-medium text-indigo-650 dark:text-indigo-400 hover:underline">Register</a>
+            `;
+          }
+        } catch (err) {
+          console.error("Session fetch failed:", err);
+        }
       }
-      window.handleSignInSubmit = handleSignInSubmit;
+      window.checkSession = checkSession;
+
+      async function handleLogout() {
+        try {
+          const res = await fetch('/api/logout', { method: 'POST' });
+          if (res.ok) {
+            window.location.reload();
+          }
+        } catch (err) {
+          showToast("Logout failed.", "error");
+        }
+      }
+      window.handleLogout = handleLogout;
 
       function dispatchSpecificTech(name, specialty, buttonElement) {
         const mockToken = `FIX-2026-${name.split(" ")[0].toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -1865,6 +2010,7 @@
       // CORE DOM EVENT HANDLERS
       // ----------------------------------------------------
       document.addEventListener("DOMContentLoaded", () => {
+        checkSession();
         const geoBtn = document.getElementById("geo-btn");
         const heroDetectBtn = document.getElementById("hero-detect-btn");
         const clearCacheBtn = document.getElementById("clear-cache-btn");
@@ -2201,7 +2347,7 @@
         function calculateQuote() {
           if (!calcService || !calcUrgency || !calcHours) return;
 
-          const baseRate = 45;
+          const baseRate = 150;
           const selectedOption = calcService.options[calcService.selectedIndex];
           const laborRate = parseFloat(selectedOption.getAttribute("data-rate"));
           
@@ -2222,11 +2368,11 @@
 
           const total = baseRate + multipliedSubtotal + addons;
 
-          if (quoteHourlyRate) quoteHourlyRate.innerText = `$${laborRate.toFixed(2)}/hr`;
-          if (quoteSubtotal) quoteSubtotal.innerText = `$${subtotal.toFixed(2)}`;
+          if (quoteHourlyRate) quoteHourlyRate.innerText = `₹${laborRate.toFixed(2)}/hr`;
+          if (quoteSubtotal) quoteSubtotal.innerText = `₹${subtotal.toFixed(2)}`;
           if (quoteMultiplier) quoteMultiplier.innerText = `${multiplier.toFixed(1)}x`;
-          if (quoteAddons) quoteAddons.innerText = `$${addons.toFixed(2)}`;
-          if (quoteTotal) quoteTotal.innerText = `$${total.toFixed(2)}`;
+          if (quoteAddons) quoteAddons.innerText = `₹${addons.toFixed(2)}`;
+          if (quoteTotal) quoteTotal.innerText = `₹${total.toFixed(2)}`;
 
           return {
             serviceName: selectedOption.value,
@@ -2246,7 +2392,7 @@
           calcBookBtn.addEventListener("click", () => {
             const data = calculateQuote();
             if (data) {
-              const description = `Interactive Estimate details:\n- Specialty: ${data.serviceName}\n- Estimated labor: ${data.hours} hours\n- Urgency: ${data.urgencyLevel}\n- Estimated quote: $${data.total.toFixed(2)}`;
+              const description = `Interactive Estimate details:\n- Specialty: ${data.serviceName}\n- Estimated labor: ${data.hours} hours\n- Urgency: ${data.urgencyLevel}\n- Estimated quote: ₹${data.total.toFixed(2)}`;
               openBookingModal(data.serviceName, data.urgencyLevel, description);
             }
           });
@@ -2339,6 +2485,47 @@
 
         // Initial render
         renderVendors();
+
+        // ----------------------------------------------------
+        // COUNT UP STATS ANIMATION
+        // ----------------------------------------------------
+        function startCountUpAnimations() {
+          const countUpElements = document.querySelectorAll(".count-up");
+          countUpElements.forEach(el => {
+            const target = el.getAttribute("data-target");
+            if (!target) return;
+            
+            const isFloat = target.includes('.');
+            const endVal = parseFloat(target);
+            const duration = 1200; // ms
+            const startTime = performance.now();
+
+            function updateCount(currentTime) {
+              const elapsed = currentTime - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+              // Easing out quadratic curve
+              const easeProgress = progress * (2 - progress);
+              const currentVal = endVal * easeProgress;
+
+              if (isFloat) {
+                el.innerText = currentVal.toFixed(1);
+              } else {
+                el.innerText = Math.floor(currentVal);
+              }
+
+              if (progress < 1) {
+                requestAnimationFrame(updateCount);
+              } else {
+                el.innerText = target;
+              }
+            }
+
+            requestAnimationFrame(updateCount);
+          });
+        }
+        
+        // Trigger count up animations on load
+        startCountUpAnimations();
       });
     </script>
   </body>

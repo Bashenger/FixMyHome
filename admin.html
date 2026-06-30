@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100 dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FixMyHome - Admin Portal</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=typography,forms,aspect-ratio"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              heading: ['Outfit', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Outfit', sans-serif !important;
+      }
+      body {
+        font-family: 'Inter', sans-serif !important;
+        background-color: #020617; /* Slate 950 */
+        background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                          radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+        background-attachment: fixed;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(15, 23, 42, 0.1);
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 3px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(99, 102, 241, 0.4);
+      }
+    </style>
+  </head>
+  <body class="flex flex-col min-h-full antialiased text-slate-200">
+
+    <!-- Admin Header -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 shadow-lg">
+      <div class="max-w-[95%] mx-auto px-4 sm:px-8 py-4">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-4">
+            <a href="/index.html" class="flex items-center space-x-3 cursor-pointer group focus:outline-none">
+              <div class="h-10 w-10 bg-indigo-650 rounded-lg flex items-center justify-center text-white text-lg transition">
+                <i class="fa-solid fa-house-chimney-crack"></i>
+              </div>
+              <div>
+                <span class="text-xl font-bold tracking-tight text-white">
+                  FixMy<span class="text-indigo-400">Home</span>
+                </span>
+                <span class="block text-[9px] uppercase tracking-wider font-mono text-indigo-400 font-bold">Control Console</span>
+              </div>
+            </a>
+          </div>
+
+          <div class="flex items-center space-x-6">
+            <div class="hidden md:flex items-center space-x-3 text-right">
+              <div>
+                <span class="block text-xs font-bold text-slate-200" id="admin-name">Administrator</span>
+                <span class="block text-[9px] text-emerald-400 font-mono font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i>Secure Root Node</span>
+              </div>
+              <div class="h-9 w-9 rounded-full bg-indigo-950 border border-indigo-700/50 flex items-center justify-center text-indigo-400 font-bold font-heading">
+                AD
+              </div>
+            </div>
+            <button onclick="handleLogout()" class="bg-slate-800 hover:bg-rose-950/40 hover:text-rose-400 text-slate-400 border border-slate-800 rounded-lg px-3 py-1.5 text-xs font-bold transition flex items-center gap-1.5 shadow-inner">
+              Sign Out <i class="fa-solid fa-right-from-bracket text-[10px]"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-grow max-w-[95%] w-full mx-auto px-4 sm:px-8 py-8 space-y-8">
+      
+      <!-- Session check dynamic alert overlay -->
+      <div id="loading-overlay" class="fixed inset-0 z-[300] bg-slate-950 flex flex-col items-center justify-center space-y-4">
+        <div class="h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+        <p class="text-xs font-mono text-indigo-400 tracking-widest uppercase animate-pulse">Checking Session State...</p>
+      </div>
+
+      <!-- Welcome Banner -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-400 bg-indigo-950/80 border border-indigo-900 px-3 py-1 rounded-full">System Dashboard</span>
+          <h2 class="text-3xl font-black mt-2 font-heading tracking-tight text-white">Central Operations Portal</h2>
+          <p class="text-slate-400 text-xs mt-1">
+            Monitor spatial matching logs, track local incident coordinates, and manage technician records.
+          </p>
+        </div>
+        <div class="flex items-center space-x-2 bg-slate-900 border border-slate-800 rounded-xl p-2.5 shadow-md self-start md:self-auto">
+          <span class="relative flex h-2.5 w-2.5 mr-1">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          </span>
+          <span class="text-[10px] font-mono font-bold text-slate-300 tracking-wider">RADAR COORDINATES INGESTION: SECURE</span>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Stat 1: Total Users -->
+        <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 hover:border-indigo-500/50 transition duration-300 shadow-lg relative overflow-hidden group">
+          <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-indigo-600/5 rounded-full group-hover:scale-125 transition duration-500"></div>
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Accounts</span>
+              <h3 class="text-2xl font-black text-white mt-1 font-heading" id="stat-total-users">--</h3>
+            </div>
+            <div class="h-10 w-10 bg-indigo-950 border border-indigo-800/40 rounded-xl flex items-center justify-center text-indigo-400 text-md">
+              <i class="fa-solid fa-users"></i>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center text-[10px] font-semibold text-indigo-400">
+            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-indigo-400"></span> Proximity Synced
+          </div>
+        </div>
+
+        <!-- Stat 2: Active Bookings -->
+        <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 hover:border-amber-500/50 transition duration-300 shadow-lg relative overflow-hidden group">
+          <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-amber-600/5 rounded-full group-hover:scale-125 transition duration-500"></div>
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Active Bookings</span>
+              <h3 class="text-2xl font-black text-white mt-1 font-heading" id="stat-active-bookings">--</h3>
+            </div>
+            <div class="h-10 w-10 bg-amber-950 border border-amber-800/40 rounded-xl flex items-center justify-center text-amber-400 text-md animate-pulse">
+              <i class="fa-solid fa-satellite-dish"></i>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center text-[10px] font-semibold text-amber-400">
+            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-amber-500"></span> Dispatches Pending
+          </div>
+        </div>
+
+        <!-- Stat 3: Active Service Pros -->
+        <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 hover:border-emerald-500/50 transition duration-300 shadow-lg relative overflow-hidden group">
+          <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-emerald-600/5 rounded-full group-hover:scale-125 transition duration-500"></div>
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Active Providers</span>
+              <h3 class="text-2xl font-black text-white mt-1 font-heading" id="stat-active-providers">--</h3>
+            </div>
+            <div class="h-10 w-10 bg-emerald-950 border border-emerald-800/40 rounded-xl flex items-center justify-center text-emerald-400 text-md">
+              <i class="fa-solid fa-truck-fast"></i>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center text-[10px] font-semibold text-emerald-400">
+            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Certified Partners
+          </div>
+        </div>
+
+        <!-- Stat 4: System Success Rate -->
+        <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 hover:border-rose-500/50 transition duration-300 shadow-lg relative overflow-hidden group">
+          <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-rose-600/5 rounded-full group-hover:scale-125 transition duration-500"></div>
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Platform Integrity</span>
+              <h3 class="text-2xl font-black text-white mt-1 font-heading">100%</h3>
+            </div>
+            <div class="h-10 w-10 bg-rose-950 border border-rose-800/40 rounded-xl flex items-center justify-center text-rose-450 text-md">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center text-[10px] font-semibold text-emerald-400">
+            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-emerald-400"></span> Core Systems Active
+          </div>
+        </div>
+      </div>
+
+      <!-- Core Data Matrices Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Left: System Bookings Matrix Table (2 cols width) -->
+        <div class="lg:col-span-2 bg-slate-900/40 border border-slate-800/80 rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between">
+          <div>
+            <div class="p-6 border-b border-slate-800/80 flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-clipboard-list text-indigo-400 text-lg"></i>
+                <h3 class="text-base font-bold text-white font-heading">System Bookings Matrix</h3>
+              </div>
+              <button onclick="refreshData()" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold transition">
+                <i class="fa-solid fa-arrows-rotate mr-1"></i> Refresh Table
+              </button>
+            </div>
+
+            <div class="overflow-x-auto custom-scrollbar">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="border-b border-slate-800 bg-slate-900/60 text-slate-400 font-bold uppercase tracking-wider">
+                    <th class="p-4">ID</th>
+                    <th class="p-4">Client Name</th>
+                    <th class="p-4">Specialty</th>
+                    <th class="p-4 text-center">Urgency</th>
+                    <th class="p-4 text-center">Status</th>
+                    <th class="p-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="bookings-table-body" class="divide-y divide-slate-800/50">
+                  <!-- Bookings injected here dynamically -->
+                  <tr>
+                    <td colspan="6" class="p-8 text-center text-slate-500">Loading bookings registry...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div class="p-4 border-t border-slate-800/50 bg-slate-900/10 text-[10px] text-slate-450 font-mono flex items-center justify-between">
+            <span>INDEXING ENGINE: LIVE</span>
+            <span id="bookings-count">0 Bookings Tracked</span>
+          </div>
+        </div>
+
+        <!-- Right: Platform Users Directory (1 col width) -->
+        <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between">
+          <div>
+            <div class="p-6 border-b border-slate-800/80 flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-address-book text-emerald-400 text-lg"></i>
+                <h3 class="text-base font-bold text-white font-heading">Users Directory</h3>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto custom-scrollbar">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="border-b border-slate-800 bg-slate-900/60 text-slate-400 font-bold uppercase tracking-wider">
+                    <th class="p-4">Account Details</th>
+                    <th class="p-4 text-center">Role</th>
+                    <th class="p-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="users-table-body" class="divide-y divide-slate-800/50">
+                  <!-- Users injected here dynamically -->
+                  <tr>
+                    <td colspan="3" class="p-8 text-center text-slate-500">Loading user list...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="p-4 border-t border-slate-800/50 bg-slate-900/10 text-[10px] text-slate-450 font-mono flex items-center justify-between">
+            <span>USERS INDEX: VERIFIED</span>
+            <span id="users-count">0 profiles</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- System Logs Tracker -->
+      <div class="bg-slate-900/30 border border-slate-800/60 rounded-2xl p-6 shadow-md">
+        <h3 class="text-xs font-bold text-slate-350 uppercase tracking-widest mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-terminal text-indigo-400"></i> Operational Audit Logs
+        </h3>
+        <div class="bg-slate-950 rounded-xl p-4 border border-slate-800 font-mono text-[11px] text-slate-400 space-y-2 h-44 overflow-y-auto custom-scrollbar" id="audit-logs">
+          <!-- Logs dynamically created -->
+          <div>[<span class="text-indigo-400">INFO</span> 18:46:01] System boot successful. Database files indexed in local filesystem directory.</div>
+          <div>[<span class="text-indigo-400">INFO</span> 18:46:05] Coordinates match dashboard loaded dynamically. Geolocation module locked.</div>
+          <div>[<span class="text-indigo-400">INFO</span> 18:46:12] Web Session Handler active. Cookie settings initialized.</div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-[200] space-y-2 pointer-events-none"></div>
+
+    <script>
+      // Toast Notification System
+      function showToast(message, type = 'info') {
+        const toastContainer = document.getElementById("toast-container");
+        const toast = document.createElement("div");
+        toast.className = `p-3 rounded-lg shadow-lg text-white text-xs font-semibold pointer-events-auto flex items-center space-x-2 border transition duration-300 transform translate-y-2 opacity-0 ${
+          type === 'success' ? 'bg-emerald-600 border-emerald-500' :
+          type === 'error' ? 'bg-rose-600 border-rose-500' :
+          type === 'warning' ? 'bg-amber-600 border-amber-500' : 'bg-slate-800 border-slate-700'
+        }`;
+        
+        const iconMap = {
+          success: '<i class="fa-solid fa-circle-check"></i>',
+          error: '<i class="fa-solid fa-circle-exclamation"></i>',
+          warning: '<i class="fa-solid fa-triangle-exclamation"></i>',
+          info: '<i class="fa-solid fa-circle-info"></i>'
+        };
+        
+        toast.innerHTML = `${iconMap[type] || ''} <span>${message}</span>`;
+        toastContainer.appendChild(toast);
+        
+        setTimeout(() => {
+          toast.classList.remove('translate-y-2', 'opacity-0');
+        }, 10);
+        
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-2');
+          setTimeout(() => {
+            toast.remove();
+          }, 300);
+        }, 4000);
+      }
+
+      // Append logs to terminal
+      function addLog(message, type = 'INFO') {
+        const auditLogs = document.getElementById("audit-logs");
+        const log = document.createElement("div");
+        const now = new Date();
+        const timeStr = now.toTimeString().split(' ')[0];
+        
+        let colorClass = 'text-indigo-400';
+        if (type === 'WARN') colorClass = 'text-amber-400';
+        if (type === 'ERR') colorClass = 'text-rose-500';
+        if (type === 'OK') colorClass = 'text-emerald-400';
+
+        log.innerHTML = `[<span class="${colorClass}">${type}</span> ${timeStr}] ${message}`;
+        auditLogs.appendChild(log);
+        auditLogs.scrollTop = auditLogs.scrollHeight;
+      }
+
+      // Check current session state on load
+      window.addEventListener('DOMContentLoaded', async () => {
+        try {
+          const res = await fetch('/api/session');
+          const data = await res.json();
+          if (data.loggedIn && data.user.role === 'admin') {
+            // Authorized administrator
+            document.getElementById("admin-name").innerText = data.user.name;
+            document.getElementById("loading-overlay").remove();
+            addLog(`Session verification succeeded: Authenticated administrator root.`, "OK");
+            
+            // Load dashboard data
+            refreshData();
+          } else {
+            // Unauthorized, send to login
+            window.location.href = '/login.html?error=unauthorized';
+          }
+        } catch (err) {
+          window.location.href = '/login.html?error=unauthorized';
+        }
+      });
+
+      // Fetch dynamic stats, bookings, and users
+      async function refreshData() {
+        try {
+          // 1. Fetch stats
+          const statsRes = await fetch('/api/admin/stats');
+          if (statsRes.ok) {
+            const stats = await statsRes.json();
+            document.getElementById("stat-total-users").innerText = stats.totalUsers;
+            document.getElementById("stat-active-bookings").innerText = stats.activeBookings;
+            document.getElementById("stat-active-providers").innerText = stats.activeProviders;
+          }
+
+          // 2. Fetch bookings list
+          const bookingsRes = await fetch('/api/admin/bookings');
+          if (bookingsRes.ok) {
+            const bookings = await bookingsRes.json();
+            renderBookings(bookings);
+          }
+
+          // 3. Fetch users directory
+          const usersRes = await fetch('/api/admin/users');
+          if (usersRes.ok) {
+            const users = await usersRes.json();
+            renderUsers(users);
+          }
+          addLog("System registry records loaded successfully.", "INFO");
+        } catch (err) {
+          showToast("Failed to reload central operation registries.", "error");
+          addLog("Internal registry reload failed.", "ERR");
+        }
+      }
+
+      // Render bookings inside the table matrix
+      function renderBookings(bookings) {
+        const tbody = document.getElementById("bookings-table-body");
+        const countSpan = document.getElementById("bookings-count");
+        tbody.innerHTML = "";
+        countSpan.innerText = `${bookings.length} Bookings Tracked`;
+
+        if (bookings.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-600">No dispatch bookings registered.</td></tr>`;
+          return;
+        }
+
+        bookings.reverse().forEach(booking => {
+          const row = document.createElement("tr");
+          row.className = "hover:bg-slate-900/30 transition duration-150 border-b border-slate-900/50";
+          
+          let urgencyClass = "text-slate-400 bg-slate-950 border-slate-900";
+          if (booking.urgency === 'High') urgencyClass = "text-rose-450 bg-rose-950/20 border-rose-900/50";
+          if (booking.urgency === 'Medium') urgencyClass = "text-amber-400 bg-amber-950/20 border-amber-900/50";
+
+          row.innerHTML = `
+            <td class="p-4 font-mono font-semibold text-indigo-400">${booking.id}</td>
+            <td class="p-4">
+              <span class="block font-bold text-white">${booking.name}</span>
+              <span class="block text-[10px] text-slate-500 font-mono">${booking.phone}</span>
+            </td>
+            <td class="p-4 font-medium text-slate-300">${booking.specialty}</td>
+            <td class="p-4 text-center">
+              <span class="inline-flex px-2 py-0.5 rounded text-[10px] font-bold border ${urgencyClass}">${booking.urgency}</span>
+            </td>
+            <td class="p-4 text-center">
+              <span class="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-450">
+                <span class="h-1 w-1 rounded-full bg-emerald-500 animate-ping"></span> ${booking.status}
+              </span>
+            </td>
+            <td class="p-4 text-right">
+              <button onclick="cancelBooking('${booking.id}')" class="text-rose-400 hover:text-rose-350 font-bold hover:underline transition">
+                <i class="fa-solid fa-trash-can mr-1"></i> Cancel
+              </button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+
+      // Render users in users directory list
+      function renderUsers(users) {
+        const tbody = document.getElementById("users-table-body");
+        const countSpan = document.getElementById("users-count");
+        tbody.innerHTML = "";
+        countSpan.innerText = `${users.length} accounts`;
+
+        if (users.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="3" class="p-8 text-center text-slate-600">No users found.</td></tr>`;
+          return;
+        }
+
+        users.forEach(user => {
+          const row = document.createElement("tr");
+          row.className = "hover:bg-slate-900/30 transition duration-150 border-b border-slate-900/50";
+          
+          let roleClass = "text-indigo-400 bg-indigo-950/20 border-indigo-900/30";
+          if (user.role === 'admin') roleClass = "text-rose-400 bg-rose-950/20 border-rose-900/30";
+          if (user.role === 'provider') roleClass = "text-emerald-400 bg-emerald-950/20 border-emerald-900/30";
+
+          row.innerHTML = `
+            <td class="p-4">
+              <span class="block font-bold text-white">${user.name}</span>
+              <span class="block text-[10px] text-slate-500 font-mono">${user.email}</span>
+              ${user.role === 'provider' ? `<span class="block text-[9px] text-slate-400 font-sans mt-0.5"><i class="fa-solid fa-certificate text-indigo-400 mr-1"></i>${user.specialty} (${user.license})</span>` : ''}
+            </td>
+            <td class="p-4 text-center">
+              <span class="inline-flex px-2 py-0.5 rounded text-[10px] font-bold border capitalize ${roleClass}">${user.role}</span>
+            </td>
+            <td class="p-4 text-right">
+              ${user.role === 'admin' ? '<span class="text-[10px] text-slate-650 italic">Protected</span>' : `
+                <button onclick="deleteUser('${user.id || user.email}', '${user.name}')" class="text-slate-500 hover:text-rose-400 font-bold hover:underline transition">
+                  <i class="fa-solid fa-user-minus mr-1"></i> Remove
+                </button>
+              `}
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+
+      // Action: Cancel Booking
+      async function cancelBooking(id) {
+        if (!confirm(`Confirm operational cancel sequence for Booking ${id}?`)) return;
+
+        try {
+          const res = await fetch(`/api/admin/bookings/${id}`, {
+            method: 'DELETE'
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            showToast(`Booking ${id} canceled successfully.`, "success");
+            addLog(`Booking ${id} deleted from database registry.`, "WARN");
+            refreshData();
+          } else {
+            showToast(data.error || "Action failed.", "error");
+          }
+        } catch (err) {
+          showToast("Network dispatch error.", "error");
+        }
+      }
+
+      // Action: Delete user
+      async function deleteUser(id, name) {
+        if (!confirm(`Confirm suspension and removal of user profile: ${name}?`)) return;
+
+        try {
+          const res = await fetch(`/api/admin/users/${id}`, {
+            method: 'DELETE'
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            showToast(`User ${name} removed from registry.`, "success");
+            addLog(`Account profile of ${name} (${id}) deleted from register database.`, "WARN");
+            refreshData();
+          } else {
+            showToast(data.error || "Action failed.", "error");
+          }
+        } catch (err) {
+          showToast("Network dispatch error.", "error");
+        }
+      }
+
+      // Action: Log out
+      async function handleLogout() {
+        try {
+          const res = await fetch('/api/logout', { method: 'POST' });
+          if (res.ok) {
+            window.location.href = '/login.html';
+          }
+        } catch (err) {
+          showToast("Logout failed.", "error");
+        }
+      }
+    </script>
+  </body>
+</html>

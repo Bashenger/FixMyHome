@@ -1,0 +1,32 @@
+[
+  {
+    "id": "B-1001",
+    "name": "Meera Kapoor",
+    "phone": "+91 98765 43210",
+    "specialty": "Plumbing Solutions",
+    "urgency": "High",
+    "description": "Our kitchen basin started leaking uncontrollably late at night.",
+    "status": "Active",
+    "date": "2026-06-30T12:22:08.349Z"
+  },
+  {
+    "id": "B-1002",
+    "name": "Amit Sen",
+    "phone": "+91 99988 87776",
+    "specialty": "Electrical Engineering",
+    "urgency": "Medium",
+    "description": "Short circuit assessment on living room spotlights.",
+    "status": "Completed",
+    "date": "2026-06-29T13:22:08.350Z"
+  },
+  {
+    "id": "B-1003",
+    "name": "Rohan Luthra",
+    "phone": "+91 77665 54433",
+    "specialty": "Carpentry & Structural",
+    "urgency": "Low",
+    "description": "Repair loose structural hinges on cabinet brackets.",
+    "status": "Active",
+    "date": "2026-06-28T13:22:08.350Z"
+  }
+]

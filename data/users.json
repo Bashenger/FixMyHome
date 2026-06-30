@@ -1,0 +1,38 @@
+[
+  {
+    "id": "u-01",
+    "email": "admin@fixmyhome.com",
+    "password": "$2b$10$T4pxr6Jelcq5/VQLs1Sdi.lWam/RyzZvwwnL071uowGEHqMjdKV4C",
+    "name": "Administrator",
+    "role": "admin",
+    "specialty": "",
+    "license": ""
+  },
+  {
+    "id": "u-02",
+    "email": "user@fixmyhome.com",
+    "password": "$2b$10$n.bxApAjTM862DRjJeu7LO5xk4WQK7LNxF25rS69.leHC.gVi43nC",
+    "name": "John Homeowner",
+    "role": "homeowner",
+    "specialty": "",
+    "license": ""
+  },
+  {
+    "id": "u-03",
+    "email": "provider@fixmyhome.com",
+    "password": "$2b$10$exYrirVbs2R7Y6nQFCQB0O6VAkpAInP4SGxVWDVfjVBv0N0S5M3wu",
+    "name": "Arjun Sharma",
+    "role": "provider",
+    "specialty": "Plumbing Solutions",
+    "license": "LIC-PL-77889"
+  },
+  {
+    "id": "u-1782825849287",
+    "email": "akpv@gmail.com",
+    "password": "$2b$10$057YOCrKfY/nHuJjgD1Zw.yY/OADVd/h7efFSIArs/HkOoBnZyzH.",
+    "name": "Aditya Krishna",
+    "role": "homeowner",
+    "specialty": "",
+    "license": ""
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "name": "fixmyhome",
+  "version": "1.0.0",
+  "description": "On-demand property maintenance, matched by proximity.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0"
+  }
+}
