@@ -287,6 +287,20 @@
         background-color: #1e293b !important;
         color: #cbd5e1 !important;
       }
+      /* Dark mode Leaflet Map popups */
+      html.dark .leaflet-popup-content-wrapper,
+      html.dark .leaflet-popup-tip {
+        background-color: #0f172a !important;
+        color: #f1f5f9 !important;
+        border: 1px solid #334155 !important;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
+      }
+      html.dark .leaflet-popup-content {
+        color: #f1f5f9 !important;
+      }
+      html.dark .leaflet-popup-close-button {
+        color: #94a3b8 !important;
+      }
       html.dark #booking-modal-panel, html.dark #provider-modal-panel, html.dark #signin-modal-panel {
         background-color: #1e293b !important;
         border-color: #334155 !important;
@@ -635,9 +649,9 @@
             </p>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
             <!-- Left Column: Location Settings -->
-            <div class="bg-indigo-950/50 p-6 rounded-xl border border-indigo-800 flex flex-col justify-between hover:border-indigo-600 transition duration-300">
+            <div class="lg:col-span-2 bg-indigo-950/50 p-6 rounded-xl border border-indigo-800 flex flex-col justify-between hover:border-indigo-600 transition duration-300">
               <div class="mb-4">
                 <h3 class="text-sm font-bold mb-2 flex items-center gap-2 text-indigo-100 font-heading">
                   <i class="fa-solid fa-location-dot text-emerald-400"></i>
@@ -669,7 +683,7 @@
                   Status: Idle. Awaiting satellite lock...
                 </div>
                 <!-- Leaflet Live Map Display -->
-                <div id="map" class="w-full h-56 rounded-lg border border-indigo-900/50 mt-4 z-10 shadow-inner overflow-hidden"></div>
+                <div id="map" class="w-full h-[400px] rounded-lg border border-indigo-900/50 mt-4 z-10 shadow-inner overflow-hidden"></div>
               </div>
 
               <!-- Integration of Alert Settings toggle inside Location Settings! -->
@@ -693,7 +707,7 @@
             </div>
 
             <!-- Right Column: Proximity Matches Dashboard -->
-            <div class="bg-indigo-950/50 p-6 rounded-xl border border-indigo-800 flex flex-col justify-between hover:border-indigo-600 transition duration-300" id="technician-panel">
+            <div class="lg:col-span-1 bg-indigo-950/50 p-6 rounded-xl border border-indigo-800 flex flex-col justify-between hover:border-indigo-600 transition duration-300" id="technician-panel">
               <div class="mb-4">
                 <h3 class="text-sm font-bold mb-2 flex items-center gap-2 text-indigo-100 font-heading">
                   <i class="fa-solid fa-users text-emerald-400"></i>
@@ -705,9 +719,9 @@
               </div>
 
               <!-- Scanning/Results Container -->
-              <div class="flex-grow flex flex-col justify-center my-4 min-h-[220px] relative">
+              <div class="flex-grow flex flex-col justify-start my-4 min-h-[220px] relative">
                 <!-- Idle Scanning State -->
-                <div id="tech-scan-container" class="flex flex-col items-center justify-center space-y-4">
+                <div id="tech-scan-container" class="flex flex-col items-center justify-center space-y-4 pt-10">
                   <div class="h-16 w-16 bg-indigo-900 rounded-full flex items-center justify-center border border-indigo-700 radar-pulse relative">
                     <i class="fa-solid fa-satellite-dish text-2xl text-emerald-400 relative z-10"></i>
                   </div>
@@ -715,7 +729,7 @@
                 </div>
 
                 <!-- Active Matched Technicians List (Hidden by default, shown when Geo is locked) -->
-                <div id="tech-list-container" class="hidden space-y-3 custom-scrollbar overflow-y-auto max-h-[300px] pr-1">
+                <div id="tech-list-container" class="hidden space-y-3 custom-scrollbar overflow-y-auto max-h-[380px] pr-1">
                   <!-- Techs will be injected here via JavaScript -->
                 </div>
               </div>
@@ -858,8 +872,7 @@
                       <option value="Plumbing Solutions" data-rate="250">Plumbing Solutions (₹250/hr)</option>
                       <option value="Electrical Engineering" data-rate="350">Electrical Engineering (₹350/hr)</option>
                       <option value="Carpentry & Structural" data-rate="200">Carpentry & Structural (₹200/hr)</option>
-                      <option value="HVAC Systems" data-rate="400">HVAC Systems (₹400/hr)</option>
-                      <option value="Appliance Service" data-rate="300">Appliance Service (₹300/hr)</option>
+                      <option value="Appliance Services" data-rate="300">Appliance Services (₹300/hr)</option>
                     </select>
                   </div>
 
@@ -1080,6 +1093,7 @@
               <option value="Plumbing Solutions">Plumbing Solutions</option>
               <option value="Electrical Engineering">Electrical Engineering</option>
               <option value="Carpentry & Structural">Carpentry & Structural</option>
+              <option value="Appliance Services">Appliance Services</option>
             </select>
           </div>
 
@@ -1434,8 +1448,7 @@
               <li><a href="#" onclick="openBookingModal('Plumbing Solutions'); return false;" class="hover:text-indigo-400 hover:underline transition">Plumbing Solutions</a></li>
               <li><a href="#" onclick="openBookingModal('Electrical Engineering'); return false;" class="hover:text-indigo-400 hover:underline transition">Electrical Engineering</a></li>
               <li><a href="#" onclick="openBookingModal('Carpentry & Structural'); return false;" class="hover:text-indigo-400 hover:underline transition">Carpentry & Structural</a></li>
-              <li><a href="#" onclick="openBookingModal('HVAC Systems'); return false;" class="hover:text-indigo-400 hover:underline transition">HVAC Heating & Air</a></li>
-              <li><a href="#" onclick="openBookingModal('Appliance Service'); return false;" class="hover:text-indigo-400 hover:underline transition">Appliance Maintenance</a></li>
+              <li><a href="#" onclick="openBookingModal('Appliance Services'); return false;" class="hover:text-indigo-400 hover:underline transition">Appliance Services</a></li>
             </ul>
           </div>
 
@@ -1671,6 +1684,147 @@
           icon: "fa-hammer",
           phone: "+91 77665 54433",
           description: "Premium structural wood renovations, locks fits, and hardware assemblies."
+        },
+        {
+          name: "Delta Plumbing Bros",
+          specialty: "Plumbing Solutions",
+          rating: "4.6",
+          reviews: 73,
+          distance: 0.8,
+          status: "Available",
+          image: "./assets/images/service_plumbing.png",
+          icon: "fa-faucet",
+          phone: "+91 91234 56789",
+          description: "Ultra-fast local pipe clearing and kitchen/bathroom drain block servicing."
+        },
+        {
+          name: "Spark & Wire Co",
+          specialty: "Electrical Engineering",
+          rating: "4.9",
+          reviews: 215,
+          distance: 1.1,
+          status: "Available",
+          image: "./assets/images/service_electrical.png",
+          icon: "fa-plug",
+          phone: "+91 81234 56789",
+          description: "Emergency fusebox fixes, safety inspections, and inverter installation."
+        },
+        {
+          name: "Classic Timber Crafts",
+          specialty: "Carpentry & Structural",
+          rating: "4.5",
+          reviews: 62,
+          distance: 2.3,
+          status: "On Route",
+          image: "./assets/images/service_carpentry.png",
+          icon: "fa-screwdriver",
+          phone: "+91 71234 56789",
+          description: "Furniture repair, hinge adjustments, and cabinet alignments."
+        },
+        {
+          name: "BlueStar Appliance Pros",
+          specialty: "Appliance Services",
+          rating: "4.8",
+          reviews: 148,
+          distance: 3.5,
+          status: "Available",
+          image: "./assets/images/service_hvac.png",
+          icon: "fa-wind",
+          phone: "+91 92345 67890",
+          description: "Local air conditioner and heater appliance repair, gas charging, and filter maintenance."
+        },
+        {
+          name: "Rapid Appliance Repair",
+          specialty: "Appliance Services",
+          rating: "4.7",
+          reviews: 110,
+          distance: 5.8,
+          status: "Available",
+          image: "./assets/images/service_appliance.png",
+          icon: "fa-tv",
+          phone: "+91 82345 67890",
+          description: "Washing machine, refrigerator, and microwave diagnostic dispatches."
+        },
+        {
+          name: "Metro Plumbers Gang",
+          specialty: "Plumbing Solutions",
+          rating: "4.4",
+          reviews: 54,
+          distance: 8.2,
+          status: "Available",
+          image: "./assets/images/service_plumbing.png",
+          icon: "fa-shower",
+          phone: "+91 72345 67890",
+          description: "High-pressure jetting, overhead water tank repairs, and sanitary fixes."
+        },
+        {
+          name: "Tesla Electrical Masters",
+          specialty: "Electrical Engineering",
+          rating: "4.9",
+          reviews: 320,
+          distance: 12.5,
+          status: "Available",
+          image: "./assets/images/service_electrical.png",
+          icon: "fa-lightbulb",
+          phone: "+91 93456 78901",
+          description: "Commercial lighting fitouts, home smart automation, and heavy load cabling."
+        },
+        {
+          name: "Artisan Woodworks",
+          specialty: "Carpentry & Structural",
+          rating: "4.6",
+          reviews: 89,
+          distance: 14.8,
+          status: "On Route",
+          image: "./assets/images/service_carpentry.png",
+          icon: "fa-tree",
+          phone: "+91 83456 78901",
+          description: "Veneer polishing, door frame replacements, and antique wood restoration."
+        }
+      ];
+
+      const supplyShops = [
+        {
+          name: "Bangalore Tool House",
+          type: "Hardware & Tools Store",
+          rating: "4.7",
+          distance: 1.2
+        },
+        {
+          name: "Metro Electrical Supplies",
+          type: "Electrical Cables & Spares",
+          rating: "4.6",
+          distance: 2.5
+        },
+        {
+          name: "Perfect Plumbing Depot",
+          type: "Pipes & Sanitary Spares",
+          rating: "4.5",
+          distance: 3.1
+        },
+        {
+          name: "Royal Timber & Woods",
+          type: "Timber & Plywood Yard",
+          rating: "4.8",
+          distance: 4.8
+        },
+        {
+          name: "QuickFix General Store",
+          type: "Hardware & Tools Store",
+          rating: "4.3",
+          distance: 0.7
+        },
+        {
+          name: "Circuit City Spares",
+          type: "Electrical Cables & Spares",
+          rating: "4.5",
+          distance: 6.2
+        },
+        {
+          name: "FlowMax Valves",
+          type: "Pipes & Sanitary Spares",
+          rating: "4.4",
+          distance: 8.5
         }
       ];
 
@@ -2010,6 +2164,12 @@
       // CORE DOM EVENT HANDLERS
       // ----------------------------------------------------
       document.addEventListener("DOMContentLoaded", () => {
+        let map;
+        let userMarker;
+        let techMarkers = [];
+        let shopMarkers = [];
+        let radiusCircle;
+
         checkSession();
         const geoBtn = document.getElementById("geo-btn");
         const heroDetectBtn = document.getElementById("hero-detect-btn");
@@ -2074,6 +2234,138 @@
         // ----------------------------------------------------
         // RADAR MATCH RENDER ENGINE
         // ----------------------------------------------------
+        // ----------------------------------------------------
+        // LIVE MAP ROUTING WITH LEAFLET (API 2)
+        // ----------------------------------------------------
+        function updateProximityMap(lat, lng, techsWithDistance) {
+          try {
+            const mapContainer = document.getElementById("map");
+            if (!mapContainer) return;
+
+            // Initialize map if it doesn't exist
+            if (!map) {
+              map = L.map('map', {
+                zoomControl: true,
+                scrollWheelZoom: false
+              }).setView([lat, lng], 13);
+              
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>'
+              }).addTo(map);
+            } else {
+              map.setView([lat, lng], 13);
+            }
+
+            // Remove existing user marker
+            if (userMarker) {
+              map.removeLayer(userMarker);
+            }
+
+            // Create custom icon for user (blue pulsing div dot)
+            const userIcon = L.divIcon({
+              className: 'custom-div-icon',
+              html: `<div class="w-4 h-4 bg-indigo-600 rounded-full border-2 border-white animate-pulse shadow-lg" style="margin-top: 4px; margin-left: 4px;"></div>`,
+              iconSize: [24, 24],
+              iconAnchor: [12, 12]
+            });
+
+            userMarker = L.marker([lat, lng], { icon: userIcon }).addTo(map)
+              .bindPopup("<b class='text-slate-900 font-sans text-xs'>Your Current Location</b>")
+              .openPopup();
+
+            // Handle scanning radius circle (fallback to 5km if slider not ready)
+            const radiusSlider = document.getElementById("radius-slider");
+            const maxRadius = parseFloat(radiusSlider ? radiusSlider.value : 5);
+            if (radiusCircle) {
+              map.removeLayer(radiusCircle);
+            }
+            radiusCircle = L.circle([lat, lng], {
+              color: '#6366f1',
+              fillColor: '#818cf8',
+              fillOpacity: 0.1,
+              weight: 1.5,
+              radius: maxRadius * 1000 // radius in meters
+            }).addTo(map);
+
+            // Clear existing technician markers
+            techMarkers.forEach(marker => map.removeLayer(marker));
+            techMarkers = [];
+
+            // Add technician markers with offset values proportional to their distance
+            techsWithDistance.forEach((tech, index) => {
+              const angle = (index * 2.0 * Math.PI) / techsWithDistance.length;
+              const offsetLat = (tech.distance * 0.007) * Math.cos(angle);
+              const offsetLng = (tech.distance * 0.010) * Math.sin(angle);
+              const techLat = lat + offsetLat;
+              const techLng = lng + offsetLng;
+
+              const techIcon = L.divIcon({
+                className: 'tech-div-icon',
+                html: `<div class="w-6 h-6 bg-slate-900 rounded-full border border-indigo-400 flex items-center justify-center shadow-lg text-[10px]" style="margin-top: 3px; margin-left: 3px;">👨‍🔧</div>`,
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+              });
+
+              const tMarker = L.marker([techLat, techLng], { icon: techIcon })
+                .addTo(map)
+                .bindPopup(`<div class='text-slate-900 text-xs font-sans p-1'>
+                  <b class='block font-bold text-slate-800 text-xs'>${tech.name}</b>
+                  <span class='block text-[10px] text-slate-500'>${tech.specialty}</span>
+                  <span class='block text-[10px] text-indigo-600 font-bold mt-1'><i class="fa-solid fa-route mr-1"></i>${tech.distance} km away</span>
+                </div>`);
+              
+              techMarkers.push(tMarker);
+            });
+
+            // Clear existing shop markers
+            shopMarkers.forEach(marker => map.removeLayer(marker));
+            shopMarkers = [];
+
+            // Add supply shop markers on the map
+            supplyShops.forEach((shop, index) => {
+              if (shop.distance <= maxRadius) {
+                const angle = ((index + 0.5) * 2.0 * Math.PI) / supplyShops.length;
+                const offsetLat = (shop.distance * 0.007) * Math.cos(angle);
+                const offsetLng = (shop.distance * 0.010) * Math.sin(angle);
+                const shopLat = lat + offsetLat;
+                const shopLng = lng + offsetLng;
+
+                const shopIcon = L.divIcon({
+                  className: 'shop-div-icon',
+                  html: `<div class="w-6 h-6 bg-emerald-950 rounded-full border border-emerald-400 flex items-center justify-center shadow-lg text-[10px]" style="margin-top: 3px; margin-left: 3px;">🏪</div>`,
+                  iconSize: [30, 30],
+                  iconAnchor: [15, 15]
+                });
+
+                const sMarker = L.marker([shopLat, shopLng], { icon: shopIcon })
+                  .addTo(map)
+                  .bindPopup(`<div class='text-slate-900 text-xs font-sans p-1'>
+                    <b class='block font-bold text-slate-800 text-xs'>🏪 ${shop.name}</b>
+                    <span class='block text-[10px] text-slate-500'>${shop.type}</span>
+                    <span class='block text-[10px] text-emerald-600 font-bold mt-1'><i class="fa-solid fa-star text-amber-500 mr-1"></i>${shop.rating} (${shop.distance} km away)</span>
+                  </div>`);
+                
+                shopMarkers.push(sMarker);
+              }
+            });
+
+            // Adjust zoom to fit circle boundaries
+            map.fitBounds(radiusCircle.getBounds());
+            
+            // Invalidate size in case of container sizing lags
+            setTimeout(() => {
+              map.invalidateSize();
+            }, 250);
+
+          } catch (e) {
+            console.error("Map rendering error: ", e);
+          }
+        }
+
+        // ----------------------------------------------------
+        // RADAR MATCH RENDER ENGINE
+        // ----------------------------------------------------
         function renderTechnicians(lat, lng) {
           const scanContainer = document.getElementById("tech-scan-container");
           const listContainer = document.getElementById("tech-list-container");
@@ -2089,32 +2381,40 @@
           const offset = (Math.abs(lat) + Math.abs(lng)) % 1;
           let minEta = 99;
           
+          const techsWithDistance = [];
+
           technicians.forEach(tech => {
-            const distance = (tech.baseDistance + (offset * 0.4)).toFixed(2);
+            const distance = parseFloat((tech.baseDistance + (offset * 0.4)).toFixed(2));
             const eta = Math.ceil(tech.eta + (offset * 3));
             if (eta < minEta) minEta = eta;
             
+            techsWithDistance.push({
+              ...tech,
+              distance: distance,
+              eta: eta
+            });
+
             const techCard = document.createElement("div");
-            techCard.className = "bg-indigo-950/80 p-3 rounded-lg border border-indigo-900/50 hover:border-emerald-500/50 hover:bg-indigo-900/40 transition duration-300 flex items-center justify-between group";
+            techCard.className = "bg-indigo-950/80 p-2 rounded-lg border border-indigo-900/50 hover:border-emerald-500/50 hover:bg-indigo-900/40 transition duration-300 flex items-center justify-between group";
             techCard.innerHTML = `
-              <div class="flex items-center space-x-3">
-                <div class="relative w-12 h-12 rounded-full overflow-hidden border border-indigo-700/50 shrink-0">
+              <div class="flex items-center space-x-2.5">
+                <div class="relative w-10 h-10 rounded-full overflow-hidden border border-indigo-700/50 shrink-0">
                   <img src="${tech.image}" alt="${tech.name}" class="w-full h-full object-cover">
-                  <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2 border-indigo-950 ${tech.status === 'Available' ? 'bg-emerald-400' : 'bg-amber-400'} animate-pulse"></span>
+                  <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full border border-indigo-950 ${tech.status === 'Available' ? 'bg-emerald-400' : 'bg-amber-400'} animate-pulse"></span>
                 </div>
                 <div>
-                  <h4 class="text-xs font-bold text-slate-100 font-heading">${tech.name}</h4>
-                  <p class="text-[9px] text-indigo-300 font-medium">${tech.specialty}</p>
-                  <div class="flex items-center space-x-2 mt-0.5">
-                    <span class="text-[9px] text-amber-400 font-bold"><i class="fa-solid fa-star text-[8px] mr-0.5"></i>${tech.rating}</span>
+                  <h4 class="text-[11px] font-bold text-slate-100 font-heading leading-tight">${tech.name}</h4>
+                  <p class="text-[8px] text-indigo-300 font-medium">${tech.specialty}</p>
+                  <div class="flex items-center space-x-1.5 mt-0.5">
+                    <span class="text-[8px] text-amber-400 font-bold"><i class="fa-solid fa-star text-[7px] mr-0.5"></i>${tech.rating}</span>
                     <span class="text-[8px] text-indigo-400">(${tech.reviews} jobs)</span>
                   </div>
                 </div>
               </div>
               <div class="text-right flex flex-col items-end shrink-0">
-                <span class="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950/50 border border-emerald-900/50 px-1.5 py-0.5 rounded">${distance} km</span>
+                <span class="text-[9px] font-mono font-bold text-emerald-400 bg-emerald-950/50 border border-emerald-900/50 px-1.5 py-0.5 rounded">${distance} km</span>
                 <span class="text-[8px] text-indigo-300 mt-1"><i class="fa-solid fa-clock mr-0.5"></i>${eta} min</span>
-                <button onclick="dispatchSpecificTech('${tech.name}', '${tech.specialty}', this)" class="mt-2 text-[9px] font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-500 px-2 py-1 rounded transition shadow">Dispatch</button>
+                <button onclick="dispatchSpecificTech('${tech.name}', '${tech.specialty}', this)" class="mt-1.5 text-[8px] font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-500 px-2 py-0.5 rounded transition shadow">Dispatch</button>
               </div>
             `;
             listContainer.appendChild(techCard);
@@ -2122,6 +2422,9 @@
 
           if (counterTechs) counterTechs.innerText = `${technicians.length} Pros`;
           if (counterEta) counterEta.innerText = `${minEta} Mins`;
+
+          // Live Leaflet map update
+          updateProximityMap(lat, lng, techsWithDistance);
         }
 
         // ----------------------------------------------------
@@ -2230,6 +2533,15 @@
           geoOutput.className =
             "mt-3 p-2.5 bg-indigo-950 rounded border border-indigo-900 font-mono text-[10px] text-amber-400";
           showToast("Proximity cache cleared.", "info");
+          
+          if (map) {
+            map.remove();
+            map = null;
+            userMarker = null;
+            techMarkers = [];
+            shopMarkers = [];
+            radiusCircle = null;
+          }
           
           const scanContainer = document.getElementById("tech-scan-container");
           const listContainer = document.getElementById("tech-list-container");
@@ -2481,7 +2793,16 @@
 
         if (vendorSearch) vendorSearch.addEventListener("input", renderVendors);
         if (vendorSpecialty) vendorSpecialty.addEventListener("change", renderVendors);
-        if (radiusSlider) radiusSlider.addEventListener("input", renderVendors);
+        if (radiusSlider) {
+          radiusSlider.addEventListener("input", () => {
+            renderVendors();
+            const cachedLat = localStorage.getItem("fixmyhome_lat");
+            const cachedLng = localStorage.getItem("fixmyhome_lng");
+            if (cachedLat && cachedLng) {
+              renderTechnicians(Number(cachedLat), Number(cachedLng));
+            }
+          });
+        }
 
         // Initial render
         renderVendors();
