@@ -19,31 +19,27 @@ The core application architecture leverages a modern unified framework environme
 
 ## 🏁 Curriculum Lab Milestones
 
-[cite_start]This repository maps directly to the required course exercises. Each directory block builds on top of the previous layer:
+This repository maps directly to the required course exercises. The modules track incremental development:
 
-### Module 1: Interactive Frontend Foundations
-* [cite_start]**Lab 1 (Tailwind Responsive Layout):** Core landing page and marketplace structure utilizing semantic structural blocks and the Tailwind Typography plugin[cite: 40].
-* [cite_start]**Lab 2 (HTML5 APIs):** Interactive integration of the native browser Geolocation API for proximity tracking and a Drag-and-Drop container for damage uploads[cite: 41].
-* [cite_start]**Lab 3 (Event Handling):** Client-side pricing estimation tool powered by raw JavaScript event streams (`input`, `change`)[cite: 42].
-* [cite_start]**Lab 4 (Vanilla JS with Database):** Local administrative provider directory testing data persistence mechanics via browser `localStorage`[cite: 43].
-
-### Module 2: Component Architecture & SPA Control
-* [cite_start]**Lab 5 (React Dynamic Profile):** Controlled React form handling live state inputs to render real-time public technician preview cards[cite: 44].
-* [cite_start]**Lab 6 (React SPA CRUD Dashboard):** Complete single-page application built with `react-router-dom` to manage service bookings (**C**reate, **R**ead, **U**pdate, **D**elete)[cite: 45].
-
-### Module 3: Enterprise Services & Production Optimization
-* [cite_start]**Lab 7 (Node.js File System Module):** Server-side background action tracker and text invoice output utilities driven by the native Node `fs` engine[cite: 45].
-* [cite_start]**Lab 8 (RESTful Services with Express & MongoDB):** Production API layer connecting scalable Express.js routing pathways to a document-driven MongoDB architecture[cite: 46].
-* [cite_start]**Lab 9 (Next.js Hybrid Rendering):** High-speed directory optimization splitting Server-Side Rendering (SSR) for directory SEO alongside Client-Side Rendering (CSR) for live status updates[cite: 47].
-* [cite_start]**Lab 10 (Tailwind + Next.js Mobile-First Optimization):** Mobile-first design refactor ensuring critical emergency booking pipelines function flawlessly on smartphone viewports[cite: 48].
+### Module 1: Interactive Frontend & Full-Stack Portal
+* **Lab 1 (Tailwind Responsive Layout):** Core landing page and marketplace structure utilizing semantic structural blocks and the Tailwind Typography plugin.
+* **Lab 2 (HTML5 APIs):** Interactive integration of the native browser Geolocation API for proximity tracking and a Drag-and-Drop container for damage uploads.
+* **Lab 3 (Event Handling):** Client-side pricing estimation tool powered by raw JavaScript event streams (`input`, `change`).
+* **Lab 4 (Express.js Portal Services):** Secure session-based login, role-based registration (Homeowner / Service Provider), and a high-density administrator control panel powered by Express.js and local JSON database storage.
 
 ---
 
 ## 📂 Project Structure
 
 ```text
-fixmyhome-monorepo/
-├── 01-vanilla-frontend/      # Labs 1, 2, 3, 4 (HTML5, Tailwind, Vanilla JS)
-├── 02-react-dashboard/       # Labs 5, 6 (React SPA / Client CRUD Lifecycle)
-├── 03-express-backend/       # Labs 7, 8 (Node.js Server, Express API, MongoDB)
-└── 04-nextjs-app/            # Labs 9, 10 (Next.js Hybrid Production Environment)
+FixMyHome/
+├── assets/                  # Public asset collections (images, icons, fonts)
+├── data/                    # Local JSON database registry (users, bookings)
+├── index.html               # Platform master landing page
+├── login.html               # Secure homeowner & provider portal login page
+├── register.html            # Role-aware provider & user sign-up page
+├── admin.html               # Live admin control panel & logs stream
+├── app.js                   # Express application setup, routes & controllers
+├── server.js                # Core server entry listener point (Node.js)
+└── package.json             # Service package configuration & scripts
+```
